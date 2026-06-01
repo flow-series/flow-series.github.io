@@ -1,88 +1,190 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="kltEE_RFFN9WP1mlDVhoy4lVfmHHAhwZRTFAj2yNrMI" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <title>workerflow</title>
-    <style>
-        .wrap{}
-        .wrap pre{font-size: 13px; color: #595959; }
-        .wrap ul{display: flex; gap: 20px; list-style: none; }
-        .wrap ul > li{}
-        .wrap ul > li.on{}
-        .wrap ul > li > a{color: #797979; font-size: 18px; font-weight: 400; text-decoration: none;}
-        .wrap ul > li.on > a{color: #333; font-weight: 600; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flow Studio — Productivity & Creativity Software</title>
+  <style>
+    :root {
+      --bg-color: #0b0b0f;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f5f5f7;
+      --text-sub: #86868b;
+      --accent-blue: #007aff;
+      --accent-purple: #bf5af2;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 0 1rem;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      background: linear-gradient(135deg, #fff 0%, var(--text-sub) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      color: var(--text-sub);
+      font-size: 1.2rem;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      gap: 2rem;
+      max-width: 1000px;
+      width: 100%;
+      padding: 0 2rem;
+      box-sizing: border-box;
+    }
+
+    .card {
+      flex: 1;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(20px);
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .card.workerflow:hover {
+      box-shadow: 0 20px 40px rgba(0, 122, 255, 0.15);
+    }
+
+    .card.slideflow:hover {
+      box-shadow: 0 20px 40px rgba(191, 90, 242, 0.15);
+    }
+
+    .badge {
+      align-self: flex-start;
+      padding: 0.35rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+
+    .workerflow .badge {
+      background: rgba(0, 122, 255, 0.15);
+      color: var(--accent-blue);
+    }
+
+    .slideflow .badge {
+      background: rgba(191, 90, 242, 0.15);
+      color: var(--accent-purple);
+    }
+
+    .card h2 {
+      font-size: 1.8rem;
+      margin: 0 0 1rem 0;
+    }
+
+    .card p {
+      color: var(--text-sub);
+      line-height: 1.6;
+      margin: 0 0 2rem 0;
+      font-size: 0.95rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.8rem 1.5rem;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .workerflow .btn {
+      background: var(--accent-blue);
+      color: #fff;
+    }
+    .workerflow .btn:hover { background: #0066d6; }
+
+    .slideflow .btn {
+      background: var(--accent-purple);
+      color: #fff;
+    }
+    .slideflow .btn:hover { background: #a936e2; }
+
+    footer {
+      margin-top: 4rem;
+      color: rgba(255, 255, 255, 0.2);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .container { flex-direction: column; }
+      body { padding: 3rem 0; }
+    }
+  </style>
 </head>
 <body>
-    <div class="wrap">
-        <h1><a href="./">workerflow</a></h1>
-        <a href="https://apps.microsoft.com/detail/9pfjph03g2nm?cid=git">https://apps.microsoft.com/detail/9pfjph03g2nm?cid=git</a>
-        <pre>
-WorkerFlow is a transparent timeline calendar widget that permeates your desktop perfectly.
-Intuitively understand your daily schedule in conjunction with Google Calendar, and maximize work productivity with your own custom scheduler.
 
-WorkerFlow is a timeline widget that is fixed to the edge of a Windows screen.
-Even if you don't open and close the calendar, the entire day's schedule always unfolds in front of you.
+  <header>
+    <h1>Flow Studio</h1>
+    <p>Empowering your daily digital experience.</p>
+  </header>
 
-─────────────────────────────
-■ Key Features
-─────────────────────────────
+  <main class="container">
+    <a href="./workerflow/index.html" class="card workerflow">
+      <div>
+        <div class="badge">Productivity</div>
+        <h2>Workerflow</h2>
+        <p>Optimize your professional desktop environment. Streamline your workspace tasks, automate scheduling, and boost daily operational productivity seamlessly.</p>
+      </div>
+      <div class="btn">Explore App</div>
+    </a>
 
-[Google calendar is completely linked]
-• Securely connect to your Google account with OAuth 2.0
-• Automatic schedule synchronization (updated immediately at 5-minute intervals + app focus)
-• Add, modify, or delete schedules within the app — Real-time reflection on Google Calendar
-• 11 Google Calendar Colors Perfect Support
-• Set notifications (10 minutes / 30 minutes / 1 hour ago), recurring schedule (daily / weekly / monthly / annual)
+    <a href="./slideflow/index.html" class="card slideflow">
+      <div>
+        <div class="badge">Creativity</div>
+        <h2>SlideFlow</h2>
+        <p>Intelligent, minimalist image viewer for assets and photography. Experience distraction-free fullscreen mode with fluid drag-and-drop mechanics.</p>
+      </div>
+      <div class="btn">Explore App</div>
+    </a>
+  </main>
 
-[Timeline Widget]
-• Top/bottom/left/right of the screen — Secure to desired location
-• Drag to adjust height/width freedom
-• Drag to add a local schedule immediately
-• Show Google schedules (Italic) and local schedules integrated into one timeline
-• Current Time Live Line (Red Line)
+  <footer>
+    &copy; 2026 Flow Studio. All rights reserved.
+  </footer>
 
-[Monthly calendar view]
-• View the full monthly schedule at a glance
-• Click Date → Timeline Widget Immediately Switch to That Date
-• Double-click → New Schedule Add Modal Open Immediately
-• Drag to select a period and register a schedule
-
-[UI / Customization]
-• Apply Windows Micah Material — Translucent Background Effect
-• Adjust background color and transparency
-• Font size adjustment (10px to 30px)
-• Always pin toggle on top
-• Auto-run at Windows startup
-• System Tray Resident — Click on the tray icon to show/hide quickly
-
-[Multilingual support]
-• Korean, English, Japanese, Chinese, and Spanish ̃
-
-─────────────────────────────
-■ I recommend it to someone like this
-─────────────────────────────
-• office workers and students who mainly use Google Calendar
-• Who needs to check schedules frequently during work
-• Who wants to see the schedule quickly without an app that fills the screen
-• Who wants a minimal Windows productivity experience
-
-─────────────────────────────
-■ Notes
-─────────────────────────────
-• Google Account login is required on first run for Google Calendar link.
-• If there is no Internet connection, only the local schedule is available.
-• Support for Windows 10/11 (Mica effect only applies to Windows 11)
-        </pre>
-        <ul>
-            <li><a href="./privacy.html">Privacy Policy</a></li>
-            <li><a href="./service.html">Terms of Service</a></li>
-        </ul>
-        <p></p>
-    </div>
 </body>
 </html>
