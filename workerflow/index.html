@@ -1,89 +1,415 @@
-
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="kltEE_RFFN9WP1mlDVhoy4lVfmHHAhwZRTFAj2yNrMI" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <title>workerflow</title>
-    <style>
-        .wrap{}
-        .wrap pre{font-size: 13px; color: #595959; }
-        .wrap ul{display: flex; gap: 20px; list-style: none; }
-        .wrap ul > li{}
-        .wrap ul > li.on{}
-        .wrap ul > li > a{color: #797979; font-size: 18px; font-weight: 400; text-decoration: none;}
-        .wrap ul > li.on > a{color: #333; font-weight: 600; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkerFlow — Desktop Timeline Calendar Widget</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080810;
+      --surface: rgba(255,255,255,0.04);
+      --surface-hover: rgba(255,255,255,0.07);
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(255,255,255,0.18);
+      --text: #f0f0f5;
+      --muted: #6e6e80;
+      --accent: #3b82f6;
+      --accent-light: #5b9eff;
+      --accent-glow: rgba(59,130,246,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.2rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background: rgba(8,8,16,0.75);
+      backdrop-filter: blur(20px);
+    }
+
+    .nav-back {
+      display: flex; align-items: center; gap: 0.5rem;
+      color: var(--muted); font-size: 0.88rem; text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem;
+      color: var(--accent); text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a { color: var(--muted); font-size: 0.88rem; text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 8rem 2rem 5rem; text-align: center; overflow: hidden;
+    }
+
+    .blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(130px); pointer-events: none; opacity: 0.3;
+    }
+    .blob-1 {
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, var(--accent), transparent 65%);
+      top: -100px; left: 50%; transform: translateX(-50%);
+      animation: pulse-blob 8s ease-in-out infinite alternate;
+    }
+    @keyframes pulse-blob {
+      from { transform: translateX(-50%) scale(1); opacity: 0.3; }
+      to   { transform: translateX(-50%) scale(1.1); opacity: 0.4; }
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25);
+      border-radius: 100px; padding: 0.4rem 1.1rem;
+      font-size: 0.78rem; font-weight: 600; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 2rem; position: relative;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 800; letter-spacing: -0.04em; line-height: 1.0;
+      margin-bottom: 1.5rem; position: relative;
+      background: linear-gradient(135deg, #fff 30%, rgba(59,130,246,0.8) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--muted); max-width: 540px; font-weight: 300;
+      margin-bottom: 1rem; position: relative;
+    }
+
+    .hero-sub {
+      font-size: 0.9rem; color: rgba(110,110,128,0.6);
+      margin-bottom: 3rem; position: relative;
+    }
+
+    /* DOWNLOAD SECTION */
+    .download-box {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem 2.5rem;
+      max-width: 520px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .download-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 1.2rem;
+    }
+
+    .download-options {
+      display: flex; flex-direction: column; gap: 0.75rem;
+    }
+
+    .download-btn {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.4rem;
+      border-radius: 12px;
+      text-decoration: none; color: var(--text);
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+
+    .download-btn:hover {
+      background: rgba(59,130,246,0.1);
+      border-color: rgba(59,130,246,0.35);
+      transform: translateX(3px);
+    }
+
+    .download-btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .download-btn.primary:hover {
+      background: var(--accent-light);
+      border-color: var(--accent-light);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+
+    .dl-icon { font-size: 1.6rem; flex-shrink: 0; }
+
+    .dl-text { flex: 1; text-align: left; }
+    .dl-text .dl-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+    .dl-text .dl-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; }
+
+    .dl-arrow { color: var(--muted); font-size: 1rem; }
+
+    .platform-note {
+      margin-top: 1rem;
+      font-size: 0.78rem; color: var(--muted); text-align: center;
+    }
+
+    /* FEATURES */
+    .features {
+      padding: 7rem 2rem; max-width: 1100px; margin: 0 auto; position: relative;
+    }
+
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700;
+      letter-spacing: -0.03em; margin-bottom: 1rem;
+    }
+
+    .section-sub { color: var(--muted); font-size: 1.05rem; font-weight: 300; max-width: 480px; margin-bottom: 4rem; }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(59,130,246,0.2);
+      background: rgba(59,130,246,0.04);
+    }
+
+    .feature-card.wide { grid-column: span 2; }
+
+    .feature-icon {
+      font-size: 1.5rem; margin-bottom: 1rem;
+      width: 48px; height: 48px;
+      background: rgba(59,130,246,0.12);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .feature-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem;
+    }
+
+    .feature-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+
+    /* SPECS */
+    .specs {
+      padding: 4rem 2rem 7rem; max-width: 1100px; margin: 0 auto;
+    }
+
+    .spec-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-top: 3rem;
+    }
+
+    .spec-item {
+      background: var(--bg);
+      padding: 1.5rem 2rem;
+    }
+
+    .spec-item:hover { background: var(--surface); }
+
+    .spec-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+    .spec-value { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 600; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+
+    .footer-brand { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--muted); }
+    .footer-brand span { color: var(--accent); }
+
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.2); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .feature-card.wide { grid-column: span 1; }
+      .spec-list { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <div class="wrap">
-        <h1><a href="./">workerflow</a></h1>
-        <a href="https://apps.microsoft.com/detail/9pfjph03g2nm?cid=git">https://apps.microsoft.com/detail/9pfjph03g2nm?cid=git</a>
-        <pre>
-WorkerFlow is a transparent timeline calendar widget that permeates your desktop perfectly.
-Intuitively understand your daily schedule in conjunction with Google Calendar, and maximize work productivity with your own custom scheduler.
 
-WorkerFlow is a timeline widget that is fixed to the edge of a Windows screen.
-Even if you don't open and close the calendar, the entire day's schedule always unfolds in front of you.
+  <nav>
+    <a href="../" class="nav-back">← Flow Studio</a>
+    <a href="./" class="nav-logo">WorkerFlow</a>
+    <ul class="nav-links">
+      <li><a href="./privacy.html">Privacy</a></li>
+      <li><a href="./service.html">Terms</a></li>
+    </ul>
+  </nav>
 
-─────────────────────────────
-■ Key Features
-─────────────────────────────
+  <section class="hero">
+    <div class="blob blob-1"></div>
 
-[Google calendar is completely linked]
-• Securely connect to your Google account with OAuth 2.0
-• Automatic schedule synchronization (updated immediately at 5-minute intervals + app focus)
-• Add, modify, or delete schedules within the app — Real-time reflection on Google Calendar
-• 11 Google Calendar Colors Perfect Support
-• Set notifications (10 minutes / 30 minutes / 1 hour ago), recurring schedule (daily / weekly / monthly / annual)
+    <div class="hero-badge">🗓 Productivity · Windows</div>
 
-[Timeline Widget]
-• Top/bottom/left/right of the screen — Secure to desired location
-• Drag to adjust height/width freedom
-• Drag to add a local schedule immediately
-• Show Google schedules (Italic) and local schedules integrated into one timeline
-• Current Time Live Line (Red Line)
+    <h1>Your day,<br>always in view.</h1>
 
-[Monthly calendar view]
-• View the full monthly schedule at a glance
-• Click Date → Timeline Widget Immediately Switch to That Date
-• Double-click → New Schedule Add Modal Open Immediately
-• Drag to select a period and register a schedule
+    <p class="hero-desc">WorkerFlow is a transparent timeline calendar widget that blends seamlessly into your Windows desktop. See your entire schedule at a glance — synced with Google Calendar, always visible.</p>
 
-[UI / Customization]
-• Apply Windows Micah Material — Translucent Background Effect
-• Adjust background color and transparency
-• Font size adjustment (10px to 30px)
-• Always pin toggle on top
-• Auto-run at Windows startup
-• System Tray Resident — Click on the tray icon to show/hide quickly
+    <p class="hero-sub">Windows 10 / 11 · Google Calendar Sync · Local Storage Only</p>
 
-[Multilingual support]
-• Korean, English, Japanese, Chinese, and Spanish ̃
-
-─────────────────────────────
-■ I recommend it to someone like this
-─────────────────────────────
-• office workers and students who mainly use Google Calendar
-• Who needs to check schedules frequently during work
-• Who wants to see the schedule quickly without an app that fills the screen
-• Who wants a minimal Windows productivity experience
-
-─────────────────────────────
-■ Notes
-─────────────────────────────
-• Google Account login is required on first run for Google Calendar link.
-• If there is no Internet connection, only the local schedule is available.
-• Support for Windows 10/11 (Mica effect only applies to Windows 11)
-        </pre>
-        <ul>
-            <li><a href="./privacy.html">Privacy Policy</a></li>
-            <li><a href="./service.html">Terms of Service</a></li>
-        </ul>
-        <p></p>
+    <div class="download-box">
+      <div class="download-title">Download for Windows</div>
+      <div class="download-options">
+        <a href="#" class="download-btn primary">
+          <div class="dl-icon">🪟</div>
+          <div class="dl-text">
+            <div class="dl-label">Download for</div>
+            <div class="dl-name">Windows (.exe)</div>
+          </div>
+          <div class="dl-arrow">↓</div>
+        </a>
+        <a href="https://apps.microsoft.com/detail/9pfjph03g2nm" target="_blank" class="download-btn">
+          <div class="dl-icon">🏪</div>
+          <div class="dl-text">
+            <div class="dl-label">Get it on</div>
+            <div class="dl-name">Microsoft Store</div>
+          </div>
+          <div class="dl-arrow">→</div>
+        </a>
+      </div>
+      <p class="platform-note">Windows 10 / 11 only · Mica effect requires Windows 11</p>
     </div>
+  </section>
+
+  <section class="features">
+    <p class="section-label">Features</p>
+    <h2 class="section-title">Your calendar,<br>reimagined as a widget.</h2>
+    <p class="section-sub">Every feature is designed to surface your schedule without ever getting in the way.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <h3>Google Calendar Sync</h3>
+        <p>Connect your Google account securely via OAuth 2.0. Schedules sync automatically every 5 minutes and instantly on app focus. Add, edit, or delete events directly from the widget.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⏱</div>
+        <h3>Live Timeline View</h3>
+        <p>A vertical timeline pinned to the edge of your screen shows your full day at a glance. A live red line marks the current moment. Drag on the timeline to instantly create a new event.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📆</div>
+        <h3>Monthly Calendar</h3>
+        <p>Switch to a full monthly overview. Click any date to jump the timeline to that day. Double-click to open a new event modal. Drag to select a date range and create a multi-day event.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3>Mica & Customization</h3>
+        <p>Applies Windows 11 Mica material for a translucent, frosted glass background. Adjust color, transparency, and font size. Pin to top. Auto-run at startup. System tray resident.</p>
+      </div>
+
+      <div class="feature-card wide">
+        <div class="feature-icon">🔒</div>
+        <h3>100% Local — Your Data Never Leaves Your PC</h3>
+        <p>WorkerFlow stores all data — OAuth tokens, schedule cache, local events — exclusively on your local device. Nothing is ever transmitted to an external server. Logging out or uninstalling immediately and permanently destroys all stored data.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="specs">
+    <p class="section-label">Specifications</p>
+    <h2 class="section-title">System requirements</h2>
+    <div class="spec-list">
+      <div class="spec-item">
+        <div class="spec-label">Platform</div>
+        <div class="spec-value">Windows 10 / 11</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Mica Effect</div>
+        <div class="spec-value">Windows 11 only</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Calendar Sync</div>
+        <div class="spec-value">Google Calendar</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Sync Interval</div>
+        <div class="spec-value">Every 5 minutes</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Data Storage</div>
+        <div class="spec-value">Local only</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Languages</div>
+        <div class="spec-value">EN / KO / JA / ZH / ES</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-brand"><span>WorkerFlow</span> by Flow Studio</div>
+    <ul class="footer-links">
+      <li><a href="../">← Flow Studio</a></li>
+      <li><a href="./privacy.html">Privacy Policy</a></li>
+      <li><a href="./service.html">Terms of Service</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 Flow Studio</span>
+  </footer>
+
 </body>
 </html>
