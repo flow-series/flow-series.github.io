@@ -1,51 +1,430 @@
-
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="kltEE_RFFN9WP1mlDVhoy4lVfmHHAhwZRTFAj2yNrMI" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <title>SlideFlow</title>
-    <style>
-        .wrap{}
-        .wrap pre{font-size: 13px; color: #595959; }
-        .wrap ul{display: flex; gap: 20px; list-style: none; }
-        .wrap ul > li{}
-        .wrap ul > li.on{}
-        .wrap ul > li > a{color: #797979; font-size: 18px; font-weight: 400; text-decoration: none;}
-        .wrap ul > li.on > a{color: #333; font-weight: 600; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SlideFlow — Minimalist Image Viewer for macOS & Windows</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #08080f;
+      --surface: rgba(255,255,255,0.04);
+      --surface-hover: rgba(255,255,255,0.07);
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(255,255,255,0.18);
+      --text: #f0f0f5;
+      --muted: #6e6e80;
+      --accent: #8b5cf6;
+      --accent-light: #a78bfa;
+      --accent-glow: rgba(139,92,246,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.2rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background: rgba(8,8,15,0.75);
+      backdrop-filter: blur(20px);
+    }
+
+    .nav-back { display: flex; align-items: center; gap: 0.5rem; color: var(--muted); font-size: 0.88rem; text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); }
+
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--accent); text-decoration: none; }
+
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a { color: var(--muted); font-size: 0.88rem; text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 8rem 2rem 5rem; text-align: center; overflow: hidden;
+    }
+
+    .blob { position: absolute; border-radius: 50%; filter: blur(130px); pointer-events: none; opacity: 0.28; }
+    .blob-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, var(--accent), transparent 65%);
+      top: -80px; right: -100px;
+      animation: float-r 10s ease-in-out infinite alternate;
+    }
+    .blob-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #ec4899, transparent 65%);
+      bottom: 0; left: -80px;
+      animation: float-l 12s ease-in-out infinite alternate;
+    }
+    @keyframes float-r { from { transform: translate(0,0); } to { transform: translate(-30px, 40px); } }
+    @keyframes float-l { from { transform: translate(0,0); } to { transform: translate(30px,-30px); } }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.25);
+      border-radius: 100px; padding: 0.4rem 1.1rem;
+      font-size: 0.78rem; font-weight: 600; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 2rem; position: relative;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 8vw, 5.8rem);
+      font-weight: 800; letter-spacing: -0.04em; line-height: 1.0;
+      margin-bottom: 0.5rem; position: relative;
+    }
+
+    .hero h1 .line-regular { color: var(--text); display: block; }
+    .hero h1 .line-accent {
+      display: block;
+      background: linear-gradient(135deg, var(--accent), #ec4899);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .hero-quote {
+      font-style: italic; font-size: 0.95rem; color: var(--muted);
+      max-width: 440px; margin: 1.5rem auto 1rem; position: relative; line-height: 1.7;
+    }
+
+    .hero-desc {
+      font-size: clamp(1rem, 2vw, 1.1rem); color: var(--muted);
+      max-width: 540px; font-weight: 300; margin-bottom: 1rem; position: relative;
+    }
+
+    .hero-sub { font-size: 0.9rem; color: rgba(110,110,128,0.6); margin-bottom: 3rem; position: relative; }
+
+    /* DOWNLOAD TABS */
+    .download-container {
+      position: relative; max-width: 580px; width: 100%; margin: 0 auto;
+    }
+
+    .platform-tabs {
+      display: flex; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px 14px 0 0; overflow: hidden;
+    }
+
+    .platform-tab {
+      flex: 1; padding: 0.75rem 1rem;
+      font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700;
+      color: var(--muted); cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      background: transparent; border: none;
+    }
+
+    .platform-tab.active {
+      background: rgba(139,92,246,0.15); color: var(--accent);
+    }
+
+    .platform-tab:not(:last-child) { border-right: 1px solid var(--border); }
+
+    .download-panel {
+      background: var(--surface);
+      border: 1px solid var(--border); border-top: none;
+      border-radius: 0 0 16px 16px;
+      padding: 1.5rem 2rem;
+      display: none;
+    }
+
+    .download-panel.active { display: block; }
+
+    .download-options { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .download-btn {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.9rem 1.3rem; border-radius: 12px;
+      text-decoration: none; color: var(--text);
+      border: 1px solid var(--border); background: rgba(255,255,255,0.03);
+      transition: all 0.25s; cursor: pointer;
+    }
+
+    .download-btn:hover {
+      background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.35);
+      transform: translateX(3px);
+    }
+
+    .download-btn.primary {
+      background: var(--accent); border-color: var(--accent);
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    .download-btn.primary:hover {
+      background: var(--accent-light); border-color: var(--accent-light);
+      box-shadow: 0 8px 40px var(--accent-glow);
+    }
+
+    .dl-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .dl-text { flex: 1; text-align: left; }
+    .dl-text .dl-label { font-size: 0.75rem; color: rgba(255,255,255,0.45); margin-bottom: 0.1rem; }
+    .dl-text .dl-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; }
+    .dl-arrow { color: var(--muted); }
+
+    .paddle-note {
+      margin-top: 0.8rem;
+      font-size: 0.75rem; color: var(--muted); text-align: center; line-height: 1.5;
+    }
+
+    .paddle-note a { color: var(--accent); text-decoration: none; }
+
+    /* FEATURES */
+    .features {
+      padding: 7rem 2rem; max-width: 1100px; margin: 0 auto;
+    }
+
+    .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .section-title { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 1rem; }
+    .section-sub { color: var(--muted); font-size: 1.05rem; font-weight: 300; max-width: 480px; margin-bottom: 4rem; }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+
+    .feature-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 2rem;
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover { border-color: rgba(139,92,246,0.2); background: rgba(139,92,246,0.04); }
+
+    .feature-icon {
+      font-size: 1.4rem; margin-bottom: 1rem;
+      width: 46px; height: 46px;
+      background: rgba(139,92,246,0.12); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .feature-card h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+    /* SPECS */
+    .specs { padding: 4rem 2rem 7rem; max-width: 1100px; margin: 0 auto; }
+
+    .spec-list {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+      border-radius: 18px; overflow: hidden;
+      border: 1px solid var(--border); margin-top: 3rem;
+    }
+
+    .spec-item { background: var(--bg); padding: 1.5rem 2rem; transition: background 0.2s; }
+    .spec-item:hover { background: var(--surface); }
+    .spec-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+    .spec-value { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 600; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+
+    .footer-brand { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--muted); }
+    .footer-brand span { color: var(--accent); }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.2); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .spec-list { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <div class="wrap">
-        <h1><a href="./">SlideFlow</a></h1>
-        <a href="https://apps.microsoft.com/detail/9pfjph03g2nm?cid=git">https://apps.microsoft.com/detail/9pfjph03g2nm?cid=git</a>
-        <pre>
-📸 SlideFlow — Minimalist & Intelligent Image Viewer
-"The most perfect flow of hiding everything unnecessary, only immersing yourself in photography."
-SlideFlow is a cross-platform (macOS / Windows)-enabled minimal image viewer designed for designers, developers, and photo enthusiasts.
-Move away from the complex UI layout that fills the screen. With a single drag-and-drop, an intelligent controller that fetches images and pops up flexibly according to the mouse pointer's movement, it provides the best canvas to fully immerse yourself in the photo.
 
-✨ Key Features
-Intelligent Full-Canvas UI (Intelligent Immersive Screen)
-Press the V key or the eye button on the bottom bar to completely erase the native top menu bar and title bar of macOS/Windows.
-If you take the mouse to the top or bottom edge of the screen with the UI hidden, the hidden menu and control bar appear naturally and smoothly.
-Seamless Slide Show
-The custom slide show can be easily controlled through the one-touch play/stop button in the center of the lower control bar and the interval adjustment slider.
-Responsive Image Layout Fit
-The right-click context menu and the top view menu support 'Tune the image horizontally' and 'Tune the image vertically' functions. It provides the best view for the monitor environment regardless of the proportion of photos.
-High-Speed Drag & Drop Parsing
-Drag and drop a single photo from the Finder/Explorer to automatically collect a list of sibling images (JPG, PNG, WebP, GIF, BMP, etc.) in that folder and navigate immediately.
-Global Multi-Language Support (embedded with five languages)
-It is equipped with a total of five languages, including Korean, English, Japanese, 简体, and Espan ̃, so that users around the world can use it according to their system language.
-        </pre>
-        <ul>
-            <li><a href="./privacy.html">Privacy Policy</a></li>
-            <li><a href="./service.html">Terms of Service</a></li>
-        </ul>
-        <p></p>
+  <nav>
+    <a href="../" class="nav-back">← Flow Studio</a>
+    <a href="./" class="nav-logo">SlideFlow</a>
+    <ul class="nav-links">
+      <li><a href="./privacy.html">Privacy</a></li>
+      <li><a href="./service.html">Terms</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="hero-badge">🖼 Image Viewer · macOS & Windows</div>
+
+    <h1>
+      <span class="line-regular">Hide everything.</span>
+      <span class="line-accent">See the image.</span>
+    </h1>
+
+    <p class="hero-quote">"The most perfect flow of hiding everything unnecessary, only immersing yourself in photography."</p>
+
+    <p class="hero-desc">A minimalist image viewer for designers, developers, and photo enthusiasts. One drag — instant immersion.</p>
+
+    <p class="hero-sub">macOS & Windows · Drag & Drop · Fullscreen Immersion</p>
+
+    <div class="download-container">
+      <div class="platform-tabs">
+        <button class="platform-tab active" onclick="switchTab('mac')">🍎 macOS</button>
+        <button class="platform-tab" onclick="switchTab('win')">🪟 Windows</button>
+      </div>
+
+      <div class="download-panel active" id="tab-mac">
+        <div class="download-options">
+          <a href="#" class="download-btn primary" id="paddle-buy-btn">
+            <div class="dl-icon">🍎</div>
+            <div class="dl-text">
+              <div class="dl-label">Buy for macOS</div>
+              <div class="dl-name">Download .dmg</div>
+            </div>
+            <div class="dl-arrow">↓</div>
+          </a>
+          <a href="#" class="download-btn" id="paddle-free-trial-btn">
+            <div class="dl-icon">🆓</div>
+            <div class="dl-text">
+              <div class="dl-label">Free Trial</div>
+              <div class="dl-name">Try before you buy</div>
+            </div>
+            <div class="dl-arrow">→</div>
+          </a>
+        </div>
+        <p class="paddle-note">Secure payment powered by <a href="https://paddle.com" target="_blank">Paddle</a>. One-time purchase, lifetime license.</p>
+      </div>
+
+      <div class="download-panel" id="tab-win">
+        <div class="download-options">
+          <a href="#" class="download-btn primary">
+            <div class="dl-icon">🪟</div>
+            <div class="dl-text">
+              <div class="dl-label">Download for</div>
+              <div class="dl-name">Windows (.exe)</div>
+            </div>
+            <div class="dl-arrow">↓</div>
+          </a>
+          <a href="https://apps.microsoft.com/detail/9pfjph03g2nm" target="_blank" class="download-btn">
+            <div class="dl-icon">🏪</div>
+            <div class="dl-text">
+              <div class="dl-label">Get it on</div>
+              <div class="dl-name">Microsoft Store</div>
+            </div>
+            <div class="dl-arrow">→</div>
+          </a>
+        </div>
+      </div>
     </div>
+  </section>
+
+  <section class="features">
+    <p class="section-label">Features</p>
+    <h2 class="section-title">Every pixel matters.<br>Nothing else does.</h2>
+    <p class="section-sub">SlideFlow strips away every distraction so your photos can breathe.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🖥</div>
+        <h3>Intelligent Fullscreen</h3>
+        <p>Press V or click the eye icon to erase the title bar entirely. Move your mouse to the edge — controls appear naturally, then vanish again.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🖱</div>
+        <h3>Smart Drag & Drop</h3>
+        <p>Drop a single image and SlideFlow automatically collects all sibling images in the folder. JPG, PNG, WebP, GIF, BMP supported.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">▶️</div>
+        <h3>Custom Slideshow</h3>
+        <p>One-touch play/pause in the center control bar. Adjust the interval with a slider. Perfect for presentations or passive viewing.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">↔️</div>
+        <h3>Responsive Fit Modes</h3>
+        <p>Right-click to fit horizontally or vertically. The best view for any aspect ratio, on any monitor.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <h3>Cross-Platform</h3>
+        <p>Full support for macOS and Windows. The same immersive experience, natively built for each platform.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h3>5 Languages Built-In</h3>
+        <p>Korean, English, Japanese, Simplified Chinese, and Spanish — auto-detected from your system language.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="specs">
+    <p class="section-label">Specifications</p>
+    <h2 class="section-title">System requirements</h2>
+    <div class="spec-list">
+      <div class="spec-item">
+        <div class="spec-label">Platforms</div>
+        <div class="spec-value">macOS & Windows</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">macOS Pricing</div>
+        <div class="spec-value">Paid (via Paddle)</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Windows Pricing</div>
+        <div class="spec-value">Microsoft Store</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Supported Formats</div>
+        <div class="spec-value">JPG, PNG, WebP, GIF, BMP</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Data Storage</div>
+        <div class="spec-value">Local only</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Languages</div>
+        <div class="spec-value">EN / KO / JA / ZH / ES</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-brand"><span>SlideFlow</span> by Flow Studio</div>
+    <ul class="footer-links">
+      <li><a href="../">← Flow Studio</a></li>
+      <li><a href="./privacy.html">Privacy Policy</a></li>
+      <li><a href="./service.html">Terms of Service</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 Flow Studio</span>
+  </footer>
+
+  <script>
+    function switchTab(platform) {
+      document.querySelectorAll('.platform-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.download-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('tab-' + platform).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+  </script>
 </body>
 </html>
