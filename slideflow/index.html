@@ -255,7 +255,64 @@
   </style>
 </head>
 <body>
+  <script src="https://cdn.paddle.com/paddle/v3/paddle.js" async></script>
 
+<script>
+  // 2. Paddle 스크립트가 완전히 로드되었는지 확인하는 플래그
+  let isPaddleReady = false;
+
+  // 브라우저의 전체 창(window) 리소스가 로드가 끝나면 실행
+  window.addEventListener('load', () => {
+    // 만약 paddle.js 라이브러리가 메모리에 정상 안착했다면 초기화 실행
+    if (typeof Paddle !== 'undefined') {
+      initializePaddle();
+    } else {
+      // 혹시 로드가 늦어질 경우를 대비해 예외 안전망 가동
+      const checkInterval = setInterval(() => {
+        if (typeof Paddle !== 'undefined') {
+          initializePaddle();
+          clearInterval(checkInterval);
+        }
+      }, 100);
+      
+      // 5초간 로드가 안 되면 네트워크 에러 처리
+      setTimeout(() => clearInterval(checkInterval), 5000);
+    }
+  });
+
+  function initializePaddle() {
+    Paddle.Setup({ 
+      token: 'live_def439b7bcc00a9c5b2c9aec097', // 샌드박스에서 발급받은 실제 Client Token 입력
+      seller: 123456
+    });
+    isPaddleReady = true;
+    console.log('✨ Paddle SDK 초기화 완료');
+  }
+
+  // 3. 결제창 호출 함수 (보안 및 에러 방지 구문 적용)
+  function openCheckout() {
+    if (!isPaddleReady || typeof Paddle === 'undefined') {
+      alert('결제 모듈을 로드 중입니다. 잠시 후 다시 시도해 주세요.');
+      return;
+    }
+
+    Paddle.Checkout.open({
+      items: [
+        {
+          priceId: 'pri_01kt11m93bzmpjskjqs1vjyfbn', // Catalog에서 생성한 실제 Price ID 입력
+          quantity: 1
+        }
+      ],
+      settings: {
+        displayMode: 'overlay', // 팝업창 형태로 오버레이
+        theme: 'dark'          // SlideFlow 테마에 맞춰 다크모드 지정
+      }
+    });
+  }
+</script>
+
+
+  <!-- 4. 구매 버튼 구성 -->
   <nav>
     <a href="../" class="nav-back">← Flow Studio</a>
     <a href="./" class="nav-logo">SlideFlow</a>
@@ -280,8 +337,9 @@
 
     <p class="hero-desc">A minimalist image viewer for designers, developers, and photo enthusiasts. One drag — instant immersion.</p>
 
+<button onclick="openCheckout()">SlideFlow 정품 구매하기</button>
     <p class="hero-sub">macOS & Windows · Drag & Drop · Fullscreen Immersion</p>
-
+<button type="button" onclick="openCheckout()">다운로드 테스트</button>
     <div class="download-container">
       <div class="platform-tabs">
         <button class="platform-tab active" onclick="switchTab('mac')">🍎 macOS</button>
@@ -290,7 +348,7 @@
 
       <div class="download-panel active" id="tab-mac">
         <div class="download-options">
-          <a href="#" class="download-btn primary" id="paddle-buy-btn">
+          <a href="#" class="download-btn primary" id="paddle-buy-btn" onclick="openCheckout()">
             <div class="dl-icon">🍎</div>
             <div class="dl-text">
               <div class="dl-label">Buy for macOS</div>
@@ -312,15 +370,15 @@
 
       <div class="download-panel" id="tab-win">
         <div class="download-options">
-          <a href="#" class="download-btn primary">
+          <!-- <a href="#" class="download-btn primary">
             <div class="dl-icon">🪟</div>
             <div class="dl-text">
               <div class="dl-label">Download for</div>
               <div class="dl-name">Windows (.exe)</div>
             </div>
             <div class="dl-arrow">↓</div>
-          </a>
-          <a href="https://apps.microsoft.com/detail/9pfjph03g2nm" target="_blank" class="download-btn">
+          </a> -->
+          <a href="https://apps.microsoft.com/detail/9pfjph03g2nm" target="_blank" class="download-btn primary">
             <div class="dl-icon">🏪</div>
             <div class="dl-text">
               <div class="dl-label">Get it on</div>

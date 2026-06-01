@@ -116,6 +116,78 @@
       font-size: 0.9rem; color: rgba(110,110,128,0.6);
       margin-bottom: 3rem; position: relative;
     }
+    
+    /* DOWNLOAD TABS */
+    .download-container {
+      position: relative; max-width: 580px; width: 100%; margin: 0 auto;
+    }
+
+    .platform-tabs {
+      display: flex; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px 14px 0 0; overflow: hidden;
+    }
+
+    .platform-tab {
+      flex: 1; padding: 0.75rem 1rem;
+      font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700;
+      color: var(--muted); cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      background: transparent; border: none;
+    }
+
+    .platform-tab.active {
+      background: rgba(139,92,246,0.15); color: var(--accent);
+    }
+
+    .platform-tab:not(:last-child) { border-right: 1px solid var(--border); }
+
+    .download-panel {
+      background: var(--surface);
+      border: 1px solid var(--border); border-top: none;
+      border-radius: 0 0 16px 16px;
+      padding: 1.5rem 2rem;
+      display: none;
+    }
+
+    .download-panel.active { display: block; }
+
+    .download-options { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .download-btn {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.9rem 1.3rem; border-radius: 12px;
+      text-decoration: none; color: var(--text);
+      border: 1px solid var(--border); background: rgba(255,255,255,0.03);
+      transition: all 0.25s; cursor: pointer;
+    }
+
+    .download-btn:hover {
+      background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.35);
+      transform: translateX(3px);
+    }
+
+    .download-btn.primary {
+      background: var(--accent); border-color: var(--accent);
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    .download-btn.primary:hover {
+      background: var(--accent-light); border-color: var(--accent-light);
+      box-shadow: 0 8px 40px var(--accent-glow);
+    }
+
+    .dl-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .dl-text { flex: 1; text-align: left; }
+    .dl-text .dl-label { font-size: 0.75rem; color: rgba(255,255,255,0.45); margin-bottom: 0.1rem; }
+    .dl-text .dl-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; }
+    .dl-arrow { color: var(--muted); }
+
+    .paddle-note {
+      margin-top: 0.8rem;
+      font-size: 0.75rem; color: var(--muted); text-align: center; line-height: 1.5;
+    }
+
+    .paddle-note a { color: var(--accent); text-decoration: none; }
 
     /* DOWNLOAD SECTION */
     .download-box {
@@ -330,6 +402,56 @@
       </div>
       <p class="platform-note">Windows 10 / 11 only · Mica effect requires Windows 11</p>
     </div>
+    <!-- @@@@@@@@@@@@@@@@@ -->
+    <div class="download-container">
+      <div class="platform-tabs">
+        <button class="platform-tab active" onclick="switchTab('mac')">🍎 macOS</button>
+        <button class="platform-tab" onclick="switchTab('win')">🪟 Windows</button>
+      </div>
+
+      <div class="download-panel active" id="tab-mac">
+        <div class="download-options">
+          <a href="#" class="download-btn primary" id="paddle-buy-btn">
+            <div class="dl-icon">🍎</div>
+            <div class="dl-text">
+              <div class="dl-label">Buy for macOS</div>
+              <div class="dl-name">Download .dmg</div>
+            </div>
+            <div class="dl-arrow">↓</div>
+          </a>
+          <a href="#" class="download-btn" id="paddle-free-trial-btn">
+            <div class="dl-icon">🆓</div>
+            <div class="dl-text">
+              <div class="dl-label">Free Trial</div>
+              <div class="dl-name">Try before you buy</div>
+            </div>
+            <div class="dl-arrow">→</div>
+          </a>
+        </div>
+        <p class="paddle-note">Secure payment powered by <a href="https://paddle.com" target="_blank">Paddle</a>. One-time purchase, lifetime license.</p>
+      </div>
+
+      <div class="download-panel" id="tab-win">
+        <div class="download-options">
+          <a href="#" class="download-btn primary">
+            <div class="dl-icon">🪟</div>
+            <div class="dl-text">
+              <div class="dl-label">Download for</div>
+              <div class="dl-name">Windows (.exe)</div>
+            </div>
+            <div class="dl-arrow">↓</div>
+          </a>
+          <a href="https://apps.microsoft.com/detail/9pfjph03g2nm" target="_blank" class="download-btn">
+            <div class="dl-icon">🏪</div>
+            <div class="dl-text">
+              <div class="dl-label">Get it on</div>
+              <div class="dl-name">Microsoft Store</div>
+            </div>
+            <div class="dl-arrow">→</div>
+          </a>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section class="features">
@@ -411,5 +533,13 @@
     <span class="footer-copy">© 2026 Flow Studio</span>
   </footer>
 
+  <script>
+    function switchTab(platform) {
+      document.querySelectorAll('.platform-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.download-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('tab-' + platform).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+  </script>
 </body>
 </html>
