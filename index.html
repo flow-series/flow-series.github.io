@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flow Studio — Desktop Apps for Focus & Flow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080810;
+      --surface: rgba(255,255,255,0.04);
+      --surface-hover: rgba(255,255,255,0.07);
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(255,255,255,0.18);
+      --text: #f0f0f5;
+      --muted: #6e6e80;
+      --blue: #3b82f6;
+      --blue-glow: rgba(59,130,246,0.25);
+      --violet: #8b5cf6;
+      --violet-glow: rgba(139,92,246,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background: rgba(8,8,16,0.7);
+      backdrop-filter: blur(20px);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--blue); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8rem 2rem 6rem;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Ambient blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      opacity: 0.35;
+    }
+
+    .blob-blue {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, var(--blue), transparent 70%);
+      top: -100px; left: -200px;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+
+    .blob-violet {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, var(--violet), transparent 70%);
+      bottom: -50px; right: -150px;
+      animation: drift 10s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(40px, 30px) scale(1.05); }
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 0.35rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      position: relative;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 8px var(--blue);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .hero h1 .line-1 { display: block; color: var(--text); }
+    .hero h1 .line-2 {
+      display: block;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--violet) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--muted);
+      max-width: 520px;
+      font-weight: 300;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .btn-primary {
+      padding: 0.8rem 2rem;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 0 30px var(--blue-glow);
+    }
+
+    .btn-primary:hover {
+      background: #5b9eff;
+      box-shadow: 0 0 50px rgba(59,130,246,0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      padding: 0.8rem 2rem;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-hover);
+      transform: translateY(-1px);
+    }
+
+    /* ── SCROLL INDICATOR ── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, transparent, var(--muted));
+      animation: scrollDown 1.8s ease-in-out infinite;
+    }
+
+    @keyframes scrollDown {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ── PRODUCTS ── */
+    .products {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      font-weight: 300;
+      max-width: 480px;
+      margin-bottom: 4rem;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem 2.5rem;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .product-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .product-card.blue::before {
+      background: radial-gradient(ellipse at top left, var(--blue-glow) 0%, transparent 60%);
+    }
+
+    .product-card.violet::before {
+      background: radial-gradient(ellipse at top left, var(--violet-glow) 0%, transparent 60%);
+    }
+
+    .product-card:hover::before { opacity: 1; }
+
+    .product-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-6px);
+    }
+
+    .product-card.blue:hover {
+      box-shadow: 0 24px 60px rgba(59,130,246,0.15);
+    }
+
+    .product-card.violet:hover {
+      box-shadow: 0 24px 60px rgba(139,92,246,0.15);
+    }
+
+    .product-icon {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+
+    .blue .product-icon { background: rgba(59,130,246,0.15); }
+    .violet .product-icon { background: rgba(139,92,246,0.15); }
+
+    .product-tag {
+      display: inline-flex;
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .blue .product-tag { background: rgba(59,130,246,0.15); color: var(--blue); }
+    .violet .product-tag { background: rgba(139,92,246,0.15); color: var(--violet); }
+
+    .product-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .product-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .product-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-top: auto;
+    }
+
+    .product-features li {
+      font-size: 0.88rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .product-features li::before {
+      content: '→';
+      font-size: 0.8rem;
+    }
+
+    .blue .product-features li::before { color: var(--blue); }
+    .violet .product-features li::before { color: var(--violet); }
+
+    .product-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.65rem 1.4rem;
+      border-radius: 10px;
+      margin-top: 1rem;
+      align-self: flex-start;
+      transition: all 0.2s;
+    }
+
+    .blue .product-cta {
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 4px 20px var(--blue-glow);
+    }
+
+    .violet .product-cta {
+      background: var(--violet);
+      color: #fff;
+      box-shadow: 0 4px 20px var(--violet-glow);
+    }
+
+    .blue .product-cta:hover { background: #5b9eff; }
+    .violet .product-cta:hover { background: #a78bfa; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 0 2rem;
+    }
+
+    /* ── WHY SECTION ── */
+    .why {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+
+    .why-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem;
+      transition: border-color 0.3s;
+    }
+
+    .why-card:hover { border-color: var(--border-hover); }
+
+    .why-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .why-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .why-card p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    .footer-logo span { color: var(--blue); }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-copy {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.2);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .product-grid { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="./" class="nav-logo">Flow<span>Studio</span></a>
+    <ul class="nav-links">
+      <li><a href="./workerflow/">WorkerFlow</a></li>
+      <li><a href="./slideflow/">SlideFlow</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="blob blob-blue"></div>
+    <div class="blob blob-violet"></div>
+
+    <div class="hero-eyebrow">Desktop Apps by Flow Studio</div>
+
+    <h1>
+      <span class="line-1">Built for the way</span>
+      <span class="line-2">you actually work.</span>
+    </h1>
+
+    <p class="hero-desc">Two carefully crafted desktop applications — one for mastering your schedule, one for experiencing your images.</p>
+
+    <div class="hero-cta">
+      <a href="./workerflow/" class="btn-primary">Explore WorkerFlow</a>
+      <a href="./slideflow/" class="btn-secondary">Explore SlideFlow</a>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <section class="products">
+    <p class="section-label">Our Applications</p>
+    <h2 class="section-title">Two tools. One vision.</h2>
+    <p class="section-sub">Distraction-free software that integrates seamlessly into your desktop environment.</p>
+
+    <div class="product-grid">
+      <a href="./workerflow/" class="product-card blue">
+        <div>
+          <div class="product-icon">🗓</div>
+        </div>
+        <div class="product-tag">Productivity · Windows</div>
+        <div class="product-name">WorkerFlow</div>
+        <p class="product-desc">A transparent timeline calendar widget that blends perfectly into your desktop. Visualize your entire day at a glance — synced with Google Calendar, always in view.</p>
+        <ul class="product-features">
+          <li>Google Calendar sync with live updates</li>
+          <li>Timeline + Monthly calendar view</li>
+          <li>Windows Mica translucent widget</li>
+          <li>Local scheduling, no server needed</li>
+        </ul>
+        <div class="product-cta">Explore WorkerFlow →</div>
+      </a>
+
+      <a href="./slideflow/" class="product-card violet">
+        <div>
+          <div class="product-icon">🖼</div>
+        </div>
+        <div class="product-tag">Creativity · macOS & Windows</div>
+        <div class="product-name">SlideFlow</div>
+        <p class="product-desc">A minimalist image viewer designed for designers, developers, and photo enthusiasts. Drag, drop, and immerse. The UI disappears — only your photos remain.</p>
+        <ul class="product-features">
+          <li>Intelligent fullscreen immersive mode</li>
+          <li>Drag & drop folder navigation</li>
+          <li>Custom slideshow with interval control</li>
+          <li>Cross-platform: macOS & Windows</li>
+        </ul>
+        <div class="product-cta">Explore SlideFlow →</div>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="why">
+    <p class="section-label">Design Philosophy</p>
+    <h2 class="section-title">Less interface.<br>More flow.</h2>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🔒</div>
+        <h3>Privacy First</h3>
+        <p>All data stays on your local device. No external servers, no telemetry. Your schedule and photos never leave your PC.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <h3>Always There</h3>
+        <p>Designed to live on your desktop — not to be opened and closed. WorkerFlow's widget is always visible, SlideFlow launches instantly.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🌍</div>
+        <h3>Multilingual</h3>
+        <p>Built-in support for Korean, English, Japanese, Simplified Chinese, and Spanish — for users around the world.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Flow<span>Studio</span></div>
+    <ul class="footer-links">
+      <li><a href="./workerflow/">WorkerFlow</a></li>
+      <li><a href="./workerflow/privacy.html">Privacy Policy</a></li>
+      <li><a href="./workerflow/service.html">Terms of Service</a></li>
+      <li><a href="./slideflow/">SlideFlow</a></li>
+      <li><a href="./slideflow/privacy.html">Privacy Policy</a></li>
+      <li><a href="./slideflow/service.html">Terms of Service</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 Flow Studio. All rights reserved.</span>
+  </footer>
+
+</body>
+</html>
