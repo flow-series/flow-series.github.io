@@ -1,63 +1,128 @@
-
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="kltEE_RFFN9WP1mlDVhoy4lVfmHHAhwZRTFAj2yNrMI" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <title>workerflow</title>
-    <style>
-        .wrap{}
-        .wrap pre{font-size: 13px; color: #595959; }
-        .wrap ul{display: flex; gap: 20px; list-style: none; }
-        .wrap ul > li{}
-        .wrap ul > li.on{}
-        .wrap ul > li > a{color: #797979; font-size: 18px; font-weight: 400; text-decoration: none;}
-        .wrap ul > li.on > a{color: #333; font-weight: 600; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — WorkerFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080810; --surface: rgba(255,255,255,0.04); --border: rgba(255,255,255,0.08);
+      --text: #f0f0f5; --muted: #6e6e80; --accent: #3b82f6;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; }
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      padding: 1.1rem 2.5rem; display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border); background: rgba(8,8,16,0.85); backdrop-filter: blur(20px);
+    }
+    .nav-back { color: var(--muted); font-size: 0.88rem; text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); }
+    .nav-brand { font-family: 'Syne', sans-serif; font-weight: 800; color: var(--accent); font-size: 1rem; text-decoration: none; }
+    .nav-tabs { display: flex; gap: 0.25rem; }
+    .nav-tab { padding: 0.4rem 1rem; border-radius: 8px; font-size: 0.85rem; text-decoration: none; color: var(--muted); transition: all 0.2s; }
+    .nav-tab.active { background: rgba(59,130,246,0.15); color: var(--accent); font-weight: 500; }
+    .nav-tab:hover:not(.active) { color: var(--text); }
+    .page { max-width: 760px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+    .page-eyebrow { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .page-title { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+    .page-date { font-size: 0.88rem; color: var(--muted); margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .legal-section { margin-bottom: 2.5rem; }
+    .legal-section h2 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-top: 0.5rem; }
+    .legal-section p { font-size: 0.95rem; color: rgba(240,240,245,0.8); line-height: 1.75; margin-bottom: 0.8rem; }
+    .legal-section ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.8rem; }
+    .legal-section ul li { font-size: 0.93rem; color: rgba(240,240,245,0.75); padding-left: 1.4rem; position: relative; line-height: 1.65; }
+    .legal-section ul li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+    .highlight-box { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); border-radius: 12px; padding: 1.2rem 1.5rem; margin: 1rem 0; }
+    .highlight-box p { color: var(--text) !important; font-weight: 500; margin: 0 !important; }
+    a.contact-link { color: var(--accent); text-decoration: none; }
+    a.contact-link:hover { text-decoration: underline; }
+    footer { border-top: 1px solid var(--border); padding: 1.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.2); }
+  </style>
 </head>
 <body>
-    <div class="wrap">
-        <h1><a href="./">workerflow</a></h1>
-        <a href="https://apps.microsoft.com/detail/9pfjph03g2nm?cid=git">https://apps.microsoft.com/detail/9pfjph03g2nm?cid=git</a>
-        <ul>
-            <li class="on"><a href="./workerflow/privacy.html">Privacy Policy</a></li>
-            <li><a href="./workerflow/service.html">Terms of Service</a></li>
-        </ul>
-        <pre>
-**Effective date: May 9, 2026**
-Developers value users' personal information and comply with related laws such as the "Act on Promotion of Information and Communication Network Utilization and Information Protection" and the "Personal Information Protection Act". This personal information processing policy informs how personal information provided is processed when users use the desktop application "WorkerFlow" (hereinafter referred to as "App").
-
-### 1. Purpose of collecting and using personal information
-The app does not collect and store personal information on the user's external server. Data is used only as a target system below for providing services.
-- **Google Calendar interlocking and displaying schedules:** Process data only for the purpose of synchronizing users' Google calendar schedules with app screens (timelines, calendar widgets).
-
-### 2. Items of personal information collected
-The personal information items handled by the app are as follows.
-- **Google account information and authentication data:** Google OAuth authentication token (Access token, Refresh token)
-- **Calendar data: **Schedule title, time, content, etc. registered on users' Google calendar
-- *** Important guide:** All collected data will not be transmitted to the developer's external database or server, and will only be stored and processed securely inside the user's PC (local storage).
-
-### 3. Period of retention and use of personal information
-- The app does not directly hold the user's personal information.
-- If a user logs out a Google account from within the app or deletes (uninstalls) the application, the authentication tokens and schedule data stored on the local device are immediately destroyed in a non-archived state.
-
-### 4. Provision and entrustment of personal information to third parties
-Developers do not provide or entrust users' personal information to the outside world. The app communicates directly with Google servers through Google's official API, and data transmission that occurs in this process follows Google's privacy policy.
-
-### 5. Compliance with Google User Data Policy
-The use of information received by the app from Google API and its transfer to other apps is strictly in compliance with the [Google API Service User Data Policy] (including https://developers.google.com/terms/api-services-user-data-policy)( restrictive usage requirements).
-
-### 6. Users' rights and methods of exercise
-Users can withdraw their consent to collect and use personal information by pressing the logout button in the app or deleting the app at any time.
-
-### 7. Personal Information Protection Officer and Inquiries
-If you have any questions about personal information while using the app, please contact the contact information below.
-
-- **Email:** [sksrla8860@gmail.com ]
-        </pre>
+  <nav>
+    <a href="../" class="nav-back">← Flow Studio</a>
+    <a href="./" class="nav-brand">WorkerFlow</a>
+    <div class="nav-tabs">
+      <a href="./privacy.html" class="nav-tab active">Privacy Policy</a>
+      <a href="./service.html" class="nav-tab">Terms of Service</a>
     </div>
+  </nav>
+
+  <main class="page">
+    <p class="page-eyebrow">WorkerFlow</p>
+    <h1 class="page-title">Privacy Policy</h1>
+    <p class="page-date">Effective date: May 9, 2026</p>
+
+    <p style="font-size:0.95rem; color:rgba(240,240,245,0.75); line-height:1.75; margin-bottom:2.5rem;">
+      The developer values users' personal information and complies with applicable laws, including the Act on Promotion of Information and Communications Network Utilization and Information Protection and the Personal Information Protection Act. This Privacy Policy explains how personal information is handled when you use the desktop application <strong>WorkerFlow</strong>.
+    </p>
+
+    <div class="legal-section">
+      <h2>1. Purpose of Collecting and Using Personal Information</h2>
+      <p>The app does not collect or store personal information on any external server. Data is used solely for the following service purpose:</p>
+      <ul>
+        <li><strong>Google Calendar integration:</strong> Data is processed exclusively to synchronize your Google Calendar events with the in-app timeline and calendar widget.</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2>2. Personal Information Collected</h2>
+      <ul>
+        <li><strong>Google account authentication data:</strong> Google OAuth tokens (Access token, Refresh token)</li>
+        <li><strong>Calendar data:</strong> Event titles, times, and descriptions from your Google Calendar</li>
+      </ul>
+      <div class="highlight-box">
+        <p>🔒 Important: All collected data is stored exclusively on your local device (PC). It is never transmitted to the developer's servers or any external database.</p>
+      </div>
+    </div>
+
+    <div class="legal-section">
+      <h2>3. Retention and Deletion of Personal Information</h2>
+      <ul>
+        <li>The app does not retain your personal information on any external system.</li>
+        <li>When you log out of your Google account within the app, or uninstall the application, all stored OAuth tokens and cached calendar data on your device are immediately and permanently deleted.</li>
+      </ul>
+    </div>
+
+    <div class="legal-section">
+      <h2>4. Sharing with Third Parties</h2>
+      <p>The developer does not share or entrust your personal information to any third party. The app communicates directly with Google's servers through the official Google API. Any data transmission that occurs in this process is governed by <a href="https://policies.google.com/privacy" class="contact-link" target="_blank">Google's Privacy Policy</a>.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>5. Google API Services User Data Policy</h2>
+      <p>WorkerFlow's use of data received from Google APIs, and any transfer of such data, strictly complies with the <a href="https://developers.google.com/terms/api-services-user-data-policy" class="contact-link" target="_blank">Google API Services User Data Policy</a>, including its Limited Use requirements.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>6. Your Rights</h2>
+      <p>You may withdraw consent to data collection at any time by logging out of your Google account within the app, or by uninstalling the application. Both actions result in the immediate deletion of all locally stored data.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>7. Contact</h2>
+      <p>If you have any questions regarding this Privacy Policy or the handling of your personal information, please contact:</p>
+      <ul>
+        <li>Email: <a href="mailto:sksrla8860@gmail.com" class="contact-link">sksrla8860@gmail.com</a></li>
+      </ul>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-copy">© 2026 Flow Studio</span>
+    <ul class="footer-links">
+      <li><a href="./">WorkerFlow</a></li>
+      <li><a href="./privacy.html">Privacy Policy</a></li>
+      <li><a href="./service.html">Terms of Service</a></li>
+    </ul>
+  </footer>
 </body>
 </html>
