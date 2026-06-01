@@ -1,59 +1,122 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="kltEE_RFFN9WP1mlDVhoy4lVfmHHAhwZRTFAj2yNrMI" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <title>workerflow</title>
-    <style>
-        .wrap{}
-        .wrap pre{font-size: 13px; color: #595959; }
-        .wrap ul{display: flex; gap: 20px; list-style: none; }
-        .wrap ul > li{}
-        .wrap ul > li.on{}
-        .wrap ul > li > a{color: #797979; font-size: 18px; font-weight: 400; text-decoration: none;}
-        .wrap ul > li.on > a{color: #333; font-weight: 600; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service — WorkerFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080810; --surface: rgba(255,255,255,0.04); --border: rgba(255,255,255,0.08);
+      --text: #f0f0f5; --muted: #6e6e80; --accent: #3b82f6;
+    }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; }
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      padding: 1.1rem 2.5rem; display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border); background: rgba(8,8,16,0.85); backdrop-filter: blur(20px);
+    }
+    .nav-back { color: var(--muted); font-size: 0.88rem; text-decoration: none; transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); }
+    .nav-brand { font-family: 'Syne', sans-serif; font-weight: 800; color: var(--accent); font-size: 1rem; text-decoration: none; }
+    .nav-tabs { display: flex; gap: 0.25rem; }
+    .nav-tab { padding: 0.4rem 1rem; border-radius: 8px; font-size: 0.85rem; text-decoration: none; color: var(--muted); transition: all 0.2s; }
+    .nav-tab.active { background: rgba(59,130,246,0.15); color: var(--accent); font-weight: 500; }
+    .nav-tab:hover:not(.active) { color: var(--text); }
+    .page { max-width: 760px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+    .page-eyebrow { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+    .page-title { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
+    .page-date { font-size: 0.88rem; color: var(--muted); margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .legal-section { margin-bottom: 2.5rem; }
+    .legal-section h2 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; padding-top: 0.5rem; }
+    .legal-section p { font-size: 0.95rem; color: rgba(240,240,245,0.8); line-height: 1.75; margin-bottom: 0.8rem; }
+    .legal-section ol { list-style: none; counter-reset: list-counter; display: flex; flex-direction: column; gap: 0.6rem; }
+    .legal-section ol li { counter-increment: list-counter; font-size: 0.93rem; color: rgba(240,240,245,0.75); padding-left: 2rem; position: relative; line-height: 1.65; }
+    .legal-section ol li::before { content: counter(list-counter) '.'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+    .highlight-box { background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.18); border-radius: 12px; padding: 1.2rem 1.5rem; margin: 1rem 0; }
+    .highlight-box p { color: var(--text) !important; margin: 0 !important; font-size: 0.92rem !important; }
+    a.contact-link { color: var(--accent); text-decoration: none; }
+    a.contact-link:hover { text-decoration: underline; }
+    footer { border-top: 1px solid var(--border); padding: 1.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.2); }
+  </style>
 </head>
 <body>
-    <div class="wrap">
-        <h1><a href="./">workerflow</a></h1>
-        <a href="https://apps.microsoft.com/detail/9pfjph03g2nm?cid=git">https://apps.microsoft.com/detail/9pfjph03g2nm?cid=git</a>
-        <ul>
-            <li><a href="./privacy.html">Privacy Policy</a></li>
-            <li class="on"><a href="./service.html">Terms of Service</a></li>
-        </ul>
-        <pre>
-**Effective date: May 9, 2026**
-
-### Article 1 (Purpose)
-The purpose of this Agreement is to prescribe the terms and procedures of the desktop application 'WorkerFlow' (hereinafter referred to as the 'App') provided by the developer, and the rights, obligations and responsibilities between the user and the developer.
-
-### Article 2 (Effects and Changes of Terms and Conditions)
-1. These terms and conditions take effect by the user downloading and running the app.
-2. Developers may change these Terms and Conditions to the extent that they do not violate the relevant laws and regulations, and the changed Terms and Conditions will take effect by posting them on this website.
-
-### Article 3 (Provisions and Restrictions on Services)
-1. This app is a paid desktop widget program.
-2. An app is a tool that assists users in work efficiency and schedule management, and some or all of the services may be modified, suspended, or changed depending on the developer's circumstances.
-
-### Article 4 (Obligation of Users)
-Users shall not engage in any of the following acts when using this app.
-
-1. The act of reverse compiling, reverse engineering, replicating, and transforming the app's source code in an unusual way
-2. Acts that cause abnormal traffic to interlocking services such as Google API and cause failure
-3. Other acts contrary to relevant laws and regulations and commercial morality
-
-### Article 5 (Restrictions on Exemption Provisions and Liabilities)
-1. **Courtesy of As-Is:** This app is offered "as-Is" and does not provide any form of warranty, either expressly or implied.
-2. **Disclaimer of missing data: ** Developer is not responsible for missing schedule data, marking errors, or users' time and economic loss caused by service failure, network connection errors, program bugs, etc. in Google API. The user is responsible for final verification of alarms or schedules.
-3. **Local Data Management: ** Data is only stored inside the user's PC, so it is the user's responsibility to lose data due to device changes or PC initialization.
-
-### Article 6 (Applicable Law and Jurisdiction Court)
-Disputes arising between the developer and the user in connection with these terms shall be governed by the laws of the Republic of Korea, and the competent court shall be governed by the Civil Procedure Act.
-        </pre>
+  <nav>
+    <a href="../" class="nav-back">← Flow Studio</a>
+    <a href="./" class="nav-brand">WorkerFlow</a>
+    <div class="nav-tabs">
+      <a href="./privacy.html" class="nav-tab">Privacy Policy</a>
+      <a href="./service.html" class="nav-tab active">Terms of Service</a>
     </div>
+  </nav>
+
+  <main class="page">
+    <p class="page-eyebrow">WorkerFlow</p>
+    <h1 class="page-title">Terms of Service</h1>
+    <p class="page-date">Effective date: May 9, 2026</p>
+
+    <div class="legal-section">
+      <h2>Article 1 — Purpose</h2>
+      <p>These Terms of Service govern the use of the desktop application <strong>WorkerFlow</strong>, and define the rights, obligations, and responsibilities between the developer and the user.</p>
+    </div>
+
+    <div class="legal-section">
+      <h2>Article 2 — Effect and Modification of Terms</h2>
+      <ol>
+        <li>These Terms take effect when the user downloads and launches the application.</li>
+        <li>The developer may modify these Terms within the limits permitted by applicable law. Updated Terms take effect upon publication on this website.</li>
+      </ol>
+    </div>
+
+    <div class="legal-section">
+      <h2>Article 3 — Service Provision and Restrictions</h2>
+      <ol>
+        <li>WorkerFlow is a paid desktop widget application.</li>
+        <li>The app is designed to help users manage work efficiency and scheduling. Some or all features may be modified, suspended, or discontinued based on the developer's circumstances.</li>
+      </ol>
+    </div>
+
+    <div class="legal-section">
+      <h2>Article 4 — User Obligations</h2>
+      <p>Users must not engage in any of the following activities when using the application:</p>
+      <ol>
+        <li>Reverse-compiling, reverse-engineering, replicating, or otherwise improperly modifying the application's source code.</li>
+        <li>Generating abnormal traffic to integrated services such as the Google API in a way that causes service disruption.</li>
+        <li>Any other acts that violate applicable laws, regulations, or commercial standards of conduct.</li>
+      </ol>
+    </div>
+
+    <div class="legal-section">
+      <h2>Article 5 — Disclaimer of Warranties and Limitation of Liability</h2>
+      <ol>
+        <li><strong>As-Is:</strong> This application is provided "as-is" without any express or implied warranties of any kind.</li>
+        <li><strong>Data Disclaimer:</strong> The developer is not liable for lost schedule data, scheduling errors, or any time or financial loss caused by Google API failures, network connectivity issues, program bugs, or other service disruptions. Users are responsible for the final verification of any alarms or scheduled events.</li>
+        <li><strong>Local Data Management:</strong> All data is stored solely on the user's local device. The developer is not responsible for data loss resulting from device changes or system resets.</li>
+      </ol>
+      <div class="highlight-box">
+        <p>Users should independently back up important schedule data and verify critical events directly in Google Calendar.</p>
+      </div>
+    </div>
+
+    <div class="legal-section">
+      <h2>Article 6 — Governing Law and Jurisdiction</h2>
+      <p>Any disputes arising in connection with these Terms shall be governed by the laws of the Republic of Korea. Jurisdiction shall be determined in accordance with the Civil Procedure Act of the Republic of Korea.</p>
+    </div>
+  </main>
+
+  <footer>
+    <span class="footer-copy">© 2026 Flow Studio</span>
+    <ul class="footer-links">
+      <li><a href="./">WorkerFlow</a></li>
+      <li><a href="./privacy.html">Privacy Policy</a></li>
+      <li><a href="./service.html">Terms of Service</a></li>
+    </ul>
+  </footer>
 </body>
 </html>
