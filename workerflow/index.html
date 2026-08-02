@@ -1,415 +1,240 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WorkerFlow — Desktop Timeline Calendar Widget</title>
+  <title>workerFlow — Desktop Timeline Calendar Widget</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    :root {
-      --bg: #080810;
-      --surface: rgba(255,255,255,0.04);
-      --surface-hover: rgba(255,255,255,0.07);
-      --border: rgba(255,255,255,0.08);
-      --border-hover: rgba(255,255,255,0.18);
-      --text: #f0f0f5;
-      --muted: #6e6e80;
-      --accent: #3b82f6;
-      --accent-light: #5b9eff;
-      --accent-glow: rgba(59,130,246,0.25);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 0;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 1.2rem 2.5rem;
-      display: flex; align-items: center; justify-content: space-between;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      background: rgba(8,8,16,0.75);
-      backdrop-filter: blur(20px);
-    }
-
-    .nav-back {
-      display: flex; align-items: center; gap: 0.5rem;
-      color: var(--muted); font-size: 0.88rem; text-decoration: none;
-      transition: color 0.2s;
-    }
-    .nav-back:hover { color: var(--text); }
-
-    .nav-logo {
-      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem;
-      color: var(--accent); text-decoration: none;
-    }
-
-    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
-    .nav-links a { color: var(--muted); font-size: 0.88rem; text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--text); }
-
-    /* HERO */
-    .hero {
-      position: relative; min-height: 100vh;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 8rem 2rem 5rem; text-align: center; overflow: hidden;
-    }
-
-    .blob {
-      position: absolute; border-radius: 50%;
-      filter: blur(130px); pointer-events: none; opacity: 0.3;
-    }
-    .blob-1 {
-      width: 700px; height: 700px;
-      background: radial-gradient(circle, var(--accent), transparent 65%);
-      top: -100px; left: 50%; transform: translateX(-50%);
-      animation: pulse-blob 8s ease-in-out infinite alternate;
-    }
-    @keyframes pulse-blob {
-      from { transform: translateX(-50%) scale(1); opacity: 0.3; }
-      to   { transform: translateX(-50%) scale(1.1); opacity: 0.4; }
-    }
-
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25);
-      border-radius: 100px; padding: 0.4rem 1.1rem;
-      font-size: 0.78rem; font-weight: 600; color: var(--accent);
-      text-transform: uppercase; letter-spacing: 0.08em;
-      margin-bottom: 2rem; position: relative;
-    }
-
-    .hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 800; letter-spacing: -0.04em; line-height: 1.0;
-      margin-bottom: 1.5rem; position: relative;
-      background: linear-gradient(135deg, #fff 30%, rgba(59,130,246,0.8) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-
-    .hero-desc {
-      font-size: clamp(1rem, 2vw, 1.15rem);
-      color: var(--muted); max-width: 540px; font-weight: 300;
-      margin-bottom: 1rem; position: relative;
-    }
-
-    .hero-sub {
-      font-size: 0.9rem; color: rgba(110,110,128,0.6);
-      margin-bottom: 3rem; position: relative;
-    }
-
-    /* DOWNLOAD SECTION */
-    .download-box {
-      position: relative;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2rem 2.5rem;
-      max-width: 520px;
-      width: 100%;
-      margin: 0 auto;
-    }
-
-    .download-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.85rem; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 1.2rem;
-    }
-
-    .download-options {
-      display: flex; flex-direction: column; gap: 0.75rem;
-    }
-
-    .download-btn {
-      display: flex; align-items: center; gap: 1rem;
-      padding: 1rem 1.4rem;
-      border-radius: 12px;
-      text-decoration: none; color: var(--text);
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.03);
-      transition: all 0.25s;
-      cursor: pointer;
-    }
-
-    .download-btn:hover {
-      background: rgba(59,130,246,0.1);
-      border-color: rgba(59,130,246,0.35);
-      transform: translateX(3px);
-    }
-
-    .download-btn.primary {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .download-btn.primary:hover {
-      background: var(--accent-light);
-      border-color: var(--accent-light);
-      box-shadow: 0 8px 30px var(--accent-glow);
-    }
-
-    .dl-icon { font-size: 1.6rem; flex-shrink: 0; }
-
-    .dl-text { flex: 1; text-align: left; }
-    .dl-text .dl-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
-    .dl-text .dl-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; }
-
-    .dl-arrow { color: var(--muted); font-size: 1rem; }
-
-    .platform-note {
-      margin-top: 1rem;
-      font-size: 0.78rem; color: var(--muted); text-align: center;
-    }
-
-    /* FEATURES */
-    .features {
-      padding: 7rem 2rem; max-width: 1100px; margin: 0 auto; position: relative;
-    }
-
-    .section-label {
-      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700;
-      letter-spacing: -0.03em; margin-bottom: 1rem;
-    }
-
-    .section-sub { color: var(--muted); font-size: 1.05rem; font-weight: 300; max-width: 480px; margin-bottom: 4rem; }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-
-    .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 2rem;
-      transition: all 0.3s;
-    }
-
-    .feature-card:hover {
-      border-color: rgba(59,130,246,0.2);
-      background: rgba(59,130,246,0.04);
-    }
-
-    .feature-card.wide { grid-column: span 2; }
-
-    .feature-icon {
-      font-size: 1.5rem; margin-bottom: 1rem;
-      width: 48px; height: 48px;
-      background: rgba(59,130,246,0.12);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    .feature-card h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem;
-    }
-
-    .feature-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
-
-    /* SPECS */
-    .specs {
-      padding: 4rem 2rem 7rem; max-width: 1100px; margin: 0 auto;
-    }
-
-    .spec-list {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      margin-top: 3rem;
-    }
-
-    .spec-item {
-      background: var(--bg);
-      padding: 1.5rem 2rem;
-    }
-
-    .spec-item:hover { background: var(--surface); }
-
-    .spec-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
-    .spec-value { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 600; }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem 2.5rem;
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
-    }
-
-    .footer-brand { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--muted); }
-    .footer-brand span { color: var(--accent); }
-
-    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
-    .footer-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--text); }
-
-    .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.2); }
-
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      .feature-grid { grid-template-columns: 1fr; }
-      .feature-card.wide { grid-column: span 1; }
-      .spec-list { grid-template-columns: 1fr; }
-    }
-  </style>
+  <!-- 메인 루트의 공통 CSS 불러오기 -->
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
-  <nav>
-    <a href="../" class="nav-back">← Flow Studio</a>
-    <a href="./" class="nav-logo">WorkerFlow</a>
-    <ul class="nav-links">
-      <li><a href="./privacy.html">Privacy</a></li>
-      <li><a href="./service.html">Terms</a></li>
-    </ul>
-  </nav>
+  <!-- Header / Navigation -->
+  <header>
+    <div class="nav-container">
+      <a href="../" class="brand-logo">Flow Series</a>
+      
+      <ul class="nav-menu">
+        <li class="nav-item-dropdown">
+          <a href="../#products">
+            <span data-i18n="navProducts">상품들</span> <span style="font-size: 0.7rem;">▾</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="../workerflow/" class="dropdown-item">
+                <span class="dropdown-icon">📅</span>
+                <div class="dropdown-text">
+                  <span class="dropdown-title">workerFlow</span>
+                  <span class="dropdown-desc" data-i18n="subWf">스케줄 위젯</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="../slideflow/" class="dropdown-item">
+                <span class="dropdown-icon">🖼️</span>
+                <div class="dropdown-text">
+                  <span class="dropdown-title">slideFlow</span>
+                  <span class="dropdown-desc" data-i18n="subSf">미니멀 뷰어</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="../focusflow/" class="dropdown-item">
+                <span class="dropdown-icon">🎯</span>
+                <div class="dropdown-text">
+                  <span class="dropdown-title">focusFlow</span>
+                  <span class="dropdown-desc" data-i18n="subFf">할일 & 몰입</span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </li>
 
+        <li><a href="../#downloads" data-i18n="navDownloads">다운로드</a></li>
+        <li><a href="../#connect" data-i18n="navConnect">고객센터</a></li>
+      </ul>
+
+      <!-- 언어 선택 셀렉터 -->
+      <div class="lang-selector">
+        <select class="lang-select" id="languageSelect">
+          <option value="ko">한국어</option>
+          <option value="en">English</option>
+          <option value="ja">日本語</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
   <section class="hero">
-    <div class="blob blob-1"></div>
-
-    <div class="hero-badge">🗓 Productivity · Windows</div>
-
-    <h1>Your day,<br>always in view.</h1>
-
-    <p class="hero-desc">WorkerFlow is a transparent timeline calendar widget that blends seamlessly into your Windows desktop. See your entire schedule at a glance — synced with Google Calendar, always visible.</p>
-
-    <p class="hero-sub">Windows 10 / 11 · Google Calendar Sync · Local Storage Only</p>
-
-    <div class="download-box">
-      <div class="download-title">Download for Windows</div>
-      <div class="download-options">
-        <a href="#" class="download-btn primary">
-          <div class="dl-icon">🪟</div>
-          <div class="dl-text">
-            <div class="dl-label">Download for</div>
-            <div class="dl-name">Windows (.exe)</div>
-          </div>
-          <div class="dl-arrow">↓</div>
+    <span class="hero-badge" data-i18n="wfHeroBadge">🗓 Productivity · Windows</span>
+    <h1 data-i18n="wfHeroTitle">당신의 하루를<br><span class="gradient-text">항상 한눈에.</span></h1>
+    <p data-i18n="wfHeroDesc">workerFlow는 바탕화면에 자연스럽게 녹아드는 타임라인 기반 스케줄 위젯입니다. Google Calendar 동기화와 직관적인 타임라인으로 오늘 하루의 흐름을 한눈에 파악하세요.</p>
+    
+    <!-- 다운로드 박스 -->
+    <div class="archive-box" style="max-width: 520px; text-align: center; margin-top: 1.5rem;">
+      <h3 style="font-size: 0.95rem; margin-bottom: 1.2rem; color: var(--text-muted);" data-i18n="wfDlTitle">다운로드 옵션</h3>
+      
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <!-- Windows .exe -->
+        <a href="#" class="btn btn-primary" style="justify-content: space-between; padding: 1rem 1.5rem;">
+          <span style="display: flex; align-items: center; gap: 0.75rem;">
+            <span style="font-size: 1.4rem;">🪟</span>
+            <span style="text-align: left;">
+              <span style="font-size: 0.75rem; opacity: 0.85; display: block;" data-i18n="wfDlWinLabel">Windows 공식 설치 파일</span>
+              <span style="font-weight: 700;">Windows (.exe)</span>
+            </span>
+          </span>
+          <span>↓</span>
         </a>
-        <a href="https://apps.microsoft.com/detail/9pfjph03g2nm" target="_blank" class="download-btn">
-          <div class="dl-icon">🏪</div>
-          <div class="dl-text">
-            <div class="dl-label">Get it on</div>
-            <div class="dl-name">Microsoft Store</div>
-          </div>
-          <div class="dl-arrow">→</div>
+
+        <!-- macOS .dmg -->
+        <a href="#" class="btn btn-secondary" style="justify-content: space-between; padding: 1rem 1.5rem;">
+          <span style="display: flex; align-items: center; gap: 0.75rem;">
+            <span style="font-size: 1.4rem;">🍎</span>
+            <span style="text-align: left;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block;" data-i18n="wfDlMacLabel">macOS 공식 설치 파일</span>
+              <span style="font-weight: 700;">macOS (.dmg)</span>
+            </span>
+          </span>
+          <span>↓</span>
+        </a>
+
+        <!-- Microsoft Store -->
+        <a href="https://apps.microsoft.com/detail/9pfjph03g2nm" target="_blank" class="btn btn-secondary" style="justify-content: space-between; padding: 1rem 1.5rem;">
+          <span style="display: flex; align-items: center; gap: 0.75rem;">
+            <span style="font-size: 1.4rem;">🏪</span>
+            <span style="text-align: left;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block;" data-i18n="wfDlStore">스토어에서 받기</span>
+              <span style="font-weight: 700;">Microsoft Store</span>
+            </span>
+          </span>
+          <span>→</span>
         </a>
       </div>
-      <p class="platform-note">Windows 10 / 11 only · Mica effect requires Windows 11</p>
-    </div>
-  </section>
 
-  <section class="features">
-    <p class="section-label">Features</p>
-    <h2 class="section-title">Your calendar,<br>reimagined as a widget.</h2>
-    <p class="section-sub">Every feature is designed to surface your schedule without ever getting in the way.</p>
+      <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);" data-i18n="wfPlatformNote">Windows 10/11 & macOS Apple Silicon/Intel 지원</p>
 
-    <div class="feature-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🔗</div>
-        <h3>Google Calendar Sync</h3>
-        <p>Connect your Google account securely via OAuth 2.0. Schedules sync automatically every 5 minutes and instantly on app focus. Add, edit, or delete events directly from the widget.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">⏱</div>
-        <h3>Live Timeline View</h3>
-        <p>A vertical timeline pinned to the edge of your screen shows your full day at a glance. A live red line marks the current moment. Drag on the timeline to instantly create a new event.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">📆</div>
-        <h3>Monthly Calendar</h3>
-        <p>Switch to a full monthly overview. Click any date to jump the timeline to that day. Double-click to open a new event modal. Drag to select a date range and create a multi-day event.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">🎨</div>
-        <h3>Mica & Customization</h3>
-        <p>Applies Windows 11 Mica material for a translucent, frosted glass background. Adjust color, transparency, and font size. Pin to top. Auto-run at startup. System tray resident.</p>
-      </div>
-
-      <div class="feature-card wide">
-        <div class="feature-icon">🔒</div>
-        <h3>100% Local — Your Data Never Leaves Your PC</h3>
-        <p>WorkerFlow stores all data — OAuth tokens, schedule cache, local events — exclusively on your local device. Nothing is ever transmitted to an external server. Logging out or uninstalling immediately and permanently destroys all stored data.</p>
+      <!-- 하단 이전 버전 이동 링크 -->
+      <div style="margin-top: 1.5rem; pt-3; border-top: 1px dashed var(--surface-border);">
+        <a href="../#downloads" style="font-size: 0.85rem; color: var(--primary-blue); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
+          <span data-i18n="wfOldVersionLink">이전 버전(아카이브) 다운로드</span> ➔
+        </a>
       </div>
     </div>
   </section>
 
-  <section class="specs">
-    <p class="section-label">Specifications</p>
-    <h2 class="section-title">System requirements</h2>
-    <div class="spec-list">
-      <div class="spec-item">
-        <div class="spec-label">Platform</div>
-        <div class="spec-value">Windows 10 / 11</div>
+  <!-- Features Section -->
+  <section class="products-section">
+    <div class="section-header">
+      <h2 class="section-title" data-i18n="wfFeatTitle">주요 기능</h2>
+      <p class="section-subtitle" data-i18n="wfFeatSub">업무에 방해되지 않고 일정만 직관적으로 보여주도록 설계되었습니다.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🔗</div>
+          <h3 class="card-title" data-i18n="wfF1Title">Google Calendar 동기화</h3>
+        </div>
+        <p class="card-desc" data-i18n="wfF1Desc">OAuth 2.0으로 안전하게 Google 계정을 연결합니다. 5분마다 자동으로 일정이 동기화되며, 앱에서 직접 일정을 추가, 수정, 삭제할 수 있습니다.</p>
       </div>
-      <div class="spec-item">
-        <div class="spec-label">Mica Effect</div>
-        <div class="spec-value">Windows 11 only</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">⏱</div>
+          <h3 class="card-title" data-i18n="wfF2Title">실시간 타임라인 뷰</h3>
+        </div>
+        <p class="card-desc" data-i18n="wfF2Desc">화면 가장자리에 고정된 수직 타임라인으로 하루 전체 일정을 한눈에 확인하세요. 빨간선으로 현재 시간을 실시간으로 표시해 줍니다.</p>
       </div>
-      <div class="spec-item">
-        <div class="spec-label">Calendar Sync</div>
-        <div class="spec-value">Google Calendar</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">📆</div>
+          <h3 class="card-title" data-i18n="wfF3Title">월간 캘린더 뷰</h3>
+        </div>
+        <p class="card-desc" data-i18n="wfF3Desc">월간 개요로 쉽게 전환할 수 있습니다. 날짜를 클릭하면 해당 날짜의 타임라인으로 이동하며, 드래그하여 다일간 일정을 작성할 수 있습니다.</p>
       </div>
-      <div class="spec-item">
-        <div class="spec-label">Sync Interval</div>
-        <div class="spec-value">Every 5 minutes</div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🎨</div>
+          <h3 class="card-title" data-i18n="wfF4Title">Windows Mica & 커스텀</h3>
+        </div>
+        <p class="card-desc" data-i18n="wfF4Desc">Windows 11의 Mica 소재를 적용하여 반투명한 유리 질감을 제공합니다. 색상, 투명도, 폰트 크기 조절, 상단 고정, 시작 프로그램 등록을 지원합니다.</p>
       </div>
-      <div class="spec-item">
-        <div class="spec-label">Data Storage</div>
-        <div class="spec-value">Local only</div>
+    </div>
+
+    <!-- 100% Local Security Wide Card -->
+    <div class="card" style="margin-top: 2rem; background: var(--brand-gradient-soft); border-color: rgba(2, 85, 202, 0.2);">
+      <div class="card-header">
+        <div class="card-icon" style="background: #FFF;">🔒</div>
+        <h3 class="card-title" data-i18n="wfSecTitle">100% 로컬 보안 — 당신의 데이터는 PC 내부에서만 유지됩니다</h3>
       </div>
-      <div class="spec-item">
-        <div class="spec-label">Languages</div>
-        <div class="spec-value">EN / KO / JA / ZH / ES</div>
-      </div>
+      <p class="card-desc" style="color: var(--text-main);" data-i18n="wfSecDesc">workerFlow는 OAuth 토큰, 일정 캐시, 로컬 이벤트 등 모든 데이터를 사용자의 기기에만 저장합니다. 외부 서버로 어떠한 개인정보도 전송되지 않으며, 로그아웃 또는 앱 삭제 시 모든 데이터는 영구적으로 파기됩니다.</p>
     </div>
   </section>
 
+  <!-- Specs Section -->
+  <section class="downloads-section">
+    <div class="section-header">
+      <h2 class="section-title" data-i18n="wfSpecTitle">권장 시스템 사양</h2>
+    </div>
+
+    <div class="archive-box" style="max-width: 900px;">
+      <table class="archive-table">
+        <tbody>
+          <tr>
+            <th data-i18n="specPlatform">지원 플랫폼</th>
+            <td>Windows 10 / 11</td>
+          </tr>
+          <tr>
+            <th data-i18n="specMica">Mica 반투명 효과</th>
+            <td data-i18n="specMicaVal">Windows 11 전용 지원</td>
+          </tr>
+          <tr>
+            <th data-i18n="specSync">캘린더 연동</th>
+            <td>Google Calendar (OAuth 2.0)</td>
+          </tr>
+          <tr>
+            <th data-i18n="specStorage">데이터 저장 방식</th>
+            <td data-i18n="specStorageVal">100% 로컬 오프라인 저장소</td>
+          </tr>
+          <tr>
+            <th data-i18n="specLang">지원 언어</th>
+            <td>한국어, English, 日本語, 中文 (간체/번체), Español, Français</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    <div class="footer-brand"><span>WorkerFlow</span> by Flow Studio</div>
-    <ul class="footer-links">
-      <li><a href="../">← Flow Studio</a></li>
-      <li><a href="./privacy.html">Privacy Policy</a></li>
-      <li><a href="./service.html">Terms of Service</a></li>
-    </ul>
-    <span class="footer-copy">© 2026 Flow Studio</span>
+    <div class="footer-container">
+      <div>
+        <p style="font-weight: 700; color: #FFF; font-size: 1.1rem; margin-bottom: 0.3rem;">workerFlow</p>
+        <p style="font-size: 0.8rem;">© 2026 Flow Series. All rights reserved.</p>
+      </div>
+      
+      <ul class="footer-links">
+        <li><a href="../#connect" data-i18n="footConnect">커넥트</a></li>
+        <li><a href="./privacy.html" class="footer-policy" data-i18n="footPrivacy">개인정보보호정책</a></li>
+        <li><a href="./service.html" class="footer-policy" data-i18n="footTerms">서비스 약관</a></li>
+      </ul>
+    </div>
   </footer>
 
+  <!-- 공통 i18n 스크립트 연결 -->
+  <script src="../js/i18n.js"></script>
 </body>
 </html>

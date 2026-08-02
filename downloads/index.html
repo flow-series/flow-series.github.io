@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flow Series — Downloads Center</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- 공통 CSS 불러오기 -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a href="../" class="brand-logo">Flow Series</a>
+      
+      <ul class="nav-menu">
+        <li class="nav-item-dropdown">
+          <a href="../#products">
+            <span data-i18n="navProducts">상품들</span> <span style="font-size: 0.7rem;">▾</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="../workerflow/" class="dropdown-item">
+                <span class="dropdown-icon">📅</span>
+                <div class="dropdown-text">
+                  <span class="dropdown-title">workerFlow</span>
+                  <span class="dropdown-desc" data-i18n="subWf">스케줄 위젯</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="../slideflow/" class="dropdown-item">
+                <span class="dropdown-icon">🖼️</span>
+                <div class="dropdown-text">
+                  <span class="dropdown-title">slideFlow</span>
+                  <span class="dropdown-desc" data-i18n="subSf">미니멀 뷰어</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="../focusflow/" class="dropdown-item">
+                <span class="dropdown-icon">🎯</span>
+                <div class="dropdown-text">
+                  <span class="dropdown-title">focusFlow</span>
+                  <span class="dropdown-desc" data-i18n="subFf">할일 & 몰입</span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li><a href="./" data-i18n="navDownloads" style="color: var(--primary-blue);">다운로드</a></li>
+        <li><a href="../#connect" data-i18n="navConnect">고객센터</a></li>
+      </ul>
+
+      <!-- 언어 설정 -->
+      <div class="lang-selector">
+        <select class="lang-select" id="languageSelect">
+          <option value="ko">한국어</option>
+          <option value="en">English</option>
+          <option value="ja">日本語</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Title Banner -->
+  <section class="hero" style="padding: 4rem 1.5rem 2rem;">
+    <span class="hero-badge" data-i18n="dlCenterBadge">Download Center</span>
+    <h1 data-i18n="dlCenterTitle">Flow Series<br><span class="gradient-text">다운로드 센터</span></h1>
+    <p data-i18n="dlCenterDesc">모든 제품의 최신 설치 파일 및 이전 버전 아카이브를 한곳에서 다운로드하실 수 있습니다.</p>
+  </section>
+
+  <!-- 1. 최신 버전 카드 섹션 -->
+  <section class="products-section" style="margin-top: 1rem;">
+    <div class="section-header">
+      <h2 class="section-title" data-i18n="dlLatestTitle">최신 버전 다운로드</h2>
+      <p class="section-subtitle" data-i18n="dlLatestSub">운영체제(OS)에 맞는 최신 버전을 선택하여 즉시 설치하세요.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- workerFlow 최신 카드 -->
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <div class="card-icon">📅</div>
+            <div>
+              <h3 class="card-title">workerFlow</h3>
+              <span style="font-size: 0.8rem; color: var(--primary-teal); font-weight: 700;">v1.1.0 (Latest)</span>
+            </div>
+          </div>
+          <p class="card-desc" data-i18n="wfDlCardDesc">바탕화면에 상주하는 타임라인 기반 스케줄 위젯</p>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem;">
+            <a href="#" class="btn btn-primary" style="justify-content: space-between; padding: 0.8rem 1.2rem;">
+              <span>🪟 Windows (.exe)</span>
+              <span>↓</span>
+            </a>
+            <a href="#" class="btn btn-secondary" style="justify-content: space-between; padding: 0.8rem 1.2rem;">
+              <span>🍎 macOS (.dmg)</span>
+              <span>↓</span>
+            </a>
+            <a href="https://apps.microsoft.com/detail/9pfjph03g2nm" target="_blank" class="btn btn-secondary" style="justify-content: space-between; padding: 0.8rem 1.2rem;">
+              <span>🏪 Microsoft Store</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+        <a href="../workerflow/" style="font-size: 0.85rem; color: var(--primary-blue); font-weight: 600; text-decoration: none;" data-i18n="goProductPage">제품 상세 페이지 보기 ➔</a>
+      </div>
+
+      <!-- slideFlow 최신 카드 -->
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <div class="card-icon">🖼️</div>
+            <div>
+              <h3 class="card-title">slideFlow</h3>
+              <span style="font-size: 0.8rem; color: var(--primary-teal); font-weight: 700;">v2.0.1 (Latest)</span>
+            </div>
+          </div>
+          <p class="card-desc" data-i18n="sfDlCardDesc">불필요한 요소를 제거한 몰입형 미니멀 이미지 뷰어</p>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem;">
+            <a href="#" class="btn btn-primary" style="justify-content: space-between; padding: 0.8rem 1.2rem;">
+              <span>🍎 macOS (.dmg)</span>
+              <span>↓</span>
+            </a>
+            <a href="#" class="btn btn-secondary" style="justify-content: space-between; padding: 0.8rem 1.2rem;">
+              <span>🪟 Windows (.exe)</span>
+              <span>↓</span>
+            </a>
+            <a href="https://apps.microsoft.com/detail/9pfjph03g2nm" target="_blank" class="btn btn-secondary" style="justify-content: space-between; padding: 0.8rem 1.2rem;">
+              <span>🏪 Microsoft Store</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+        <a href="../slideflow/" style="font-size: 0.85rem; color: var(--primary-blue); font-weight: 600; text-decoration: none;" data-i18n="goProductPage">제품 상세 페이지 보기 ➔</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 각 제품별 이전 버전(아카이브) 섹션 -->
+  <section class="downloads-section" style="margin-top: 4rem;">
+    <div class="section-header">
+      <h2 class="section-title" data-i18n="dlArchiveTitle">제품별 이전 버전 아카이브</h2>
+      <p class="section-subtitle" data-i18n="dlArchiveSub">이전 패치버전 설치 파일이 필요한 경우 아래 목록에서 다운로드하실 수 있습니다.</p>
+    </div>
+
+    <!-- workerFlow 아카이브 -->
+    <div class="archive-box" style="margin-bottom: 2.5rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+        <span style="font-size: 1.2rem;">📅</span>
+        <h3 style="font-size: 1.2rem; font-weight: 700;">workerFlow Release History</h3>
+      </div>
+      <table class="archive-table">
+        <thead>
+          <tr>
+            <th data-i18n="thVersion">버전</th>
+            <th data-i18n="thPlatform">OS / 플랫폼</th>
+            <th data-i18n="thReleaseDate">출시일</th>
+            <th data-i18n="thDownload">다운로드</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>v1.1.0</strong> (<span data-i18n="latestTag">최신</span>)</td>
+            <td>Windows / macOS</td>
+            <td>2026.05.10</td>
+            <td><a href="#" class="dl-link" data-i18n="linkDl">Download (.exe / .dmg)</a></td>
+          </tr>
+          <tr>
+            <td><strong>v1.0.2</strong> (<span data-i18n="olderTag">이전버전</span>)</td>
+            <td>Windows</td>
+            <td>2026.03.15</td>
+            <td><a href="#" class="dl-link" data-i18n="linkDl">Download (.exe)</a></td>
+          </tr>
+          <tr>
+            <td><strong>v1.0.0</strong> (<span data-i18n="olderTag">이전버전</span>)</td>
+            <td>Windows</td>
+            <td>2026.01.20</td>
+            <td><a href="#" class="dl-link" data-i18n="linkDl">Download (.exe)</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- slideFlow 아카이브 -->
+    <div class="archive-box">
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+        <span style="font-size: 1.2rem;">🖼️</span>
+        <h3 style="font-size: 1.2rem; font-weight: 700;">slideFlow Release History</h3>
+      </div>
+      <table class="archive-table">
+        <thead>
+          <tr>
+            <th data-i18n="thVersion">버전</th>
+            <th data-i18n="thPlatform">OS / 플랫폼</th>
+            <th data-i18n="thReleaseDate">출시일</th>
+            <th data-i18n="thDownload">다운로드</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>v2.0.1</strong> (<span data-i18n="latestTag">최신</span>)</td>
+            <td>macOS / Windows</td>
+            <td>2026.04.18</td>
+            <td><a href="#" class="dl-link" data-i18n="linkDl">Download (.dmg / .exe)</a></td>
+          </tr>
+          <tr>
+            <td><strong>v1.9.0</strong> (<span data-i18n="olderTag">이전버전</span>)</td>
+            <td>macOS / Windows</td>
+            <td>2026.02.05</td>
+            <td><a href="#" class="dl-link" data-i18n="linkDl">Download (.dmg / .exe)</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div>
+        <p style="font-weight: 700; color: #FFF; font-size: 1.1rem; margin-bottom: 0.3rem;">Flow Series</p>
+        <p style="font-size: 0.8rem;">© 2026 Flow Series. All rights reserved.</p>
+      </div>
+      
+      <ul class="footer-links">
+        <li><a href="../#connect" data-i18n="footConnect">커넥트</a></li>
+        <li><a href="../privacy.html" class="footer-policy" data-i18n="footPrivacy">개인정보보호정책</a></li>
+        <li><a href="../terms.html" class="footer-policy" data-i18n="footTerms">서비스 약관</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- 공통 i18n 스크립트 불러오기 -->
+  <script src="../js/i18n.js"></script>
+</body>
+</html>

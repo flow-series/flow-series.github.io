@@ -1,650 +1,265 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flow Studio — Desktop Apps for Focus & Flow</title>
+  <title>Flow Series — Streamline Your Workflow & Vision</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #080810;
-      --surface: rgba(255,255,255,0.04);
-      --surface-hover: rgba(255,255,255,0.07);
-      --border: rgba(255,255,255,0.08);
-      --border-hover: rgba(255,255,255,0.18);
-      --text: #f0f0f5;
-      --muted: #6e6e80;
-      --blue: #3b82f6;
-      --blue-glow: rgba(59,130,246,0.25);
-      --violet: #8b5cf6;
-      --violet-glow: rgba(139,92,246,0.25);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* ── NOISE OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1.2rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      background: rgba(8,8,16,0.7);
-      backdrop-filter: blur(20px);
-    }
-
-    .nav-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1.2rem;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      text-decoration: none;
-    }
-
-    .nav-logo span { color: var(--blue); }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--text); }
-
-    /* ── HERO ── */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 8rem 2rem 6rem;
-      text-align: center;
-      overflow: hidden;
-    }
-
-    /* Ambient blobs */
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      pointer-events: none;
-      opacity: 0.35;
-    }
-
-    .blob-blue {
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, var(--blue), transparent 70%);
-      top: -100px; left: -200px;
-      animation: drift 12s ease-in-out infinite alternate;
-    }
-
-    .blob-violet {
-      width: 500px; height: 500px;
-      background: radial-gradient(circle, var(--violet), transparent 70%);
-      bottom: -50px; right: -150px;
-      animation: drift 10s ease-in-out infinite alternate-reverse;
-    }
-
-    @keyframes drift {
-      from { transform: translate(0, 0) scale(1); }
-      to   { transform: translate(40px, 30px) scale(1.05); }
-    }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 0.35rem 1rem;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--muted);
-      margin-bottom: 2rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      position: relative;
-    }
-
-    .hero-eyebrow::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--blue);
-      box-shadow: 0 0 8px var(--blue);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    .hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(3rem, 8vw, 6.5rem);
-      font-weight: 800;
-      line-height: 1.0;
-      letter-spacing: -0.04em;
-      margin-bottom: 1.5rem;
-      position: relative;
-    }
-
-    .hero h1 .line-1 { display: block; color: var(--text); }
-    .hero h1 .line-2 {
-      display: block;
-      background: linear-gradient(135deg, var(--blue) 0%, var(--violet) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-desc {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      color: var(--muted);
-      max-width: 520px;
-      font-weight: 300;
-      margin-bottom: 3rem;
-      position: relative;
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      position: relative;
-    }
-
-    .btn-primary {
-      padding: 0.8rem 2rem;
-      background: var(--blue);
-      color: #fff;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      text-decoration: none;
-      transition: all 0.2s;
-      box-shadow: 0 0 30px var(--blue-glow);
-    }
-
-    .btn-primary:hover {
-      background: #5b9eff;
-      box-shadow: 0 0 50px rgba(59,130,246,0.5);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      padding: 0.8rem 2rem;
-      background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-weight: 500;
-      font-size: 0.95rem;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .btn-secondary:hover {
-      background: var(--surface-hover);
-      border-color: var(--border-hover);
-      transform: translateY(-1px);
-    }
-
-    /* ── SCROLL INDICATOR ── */
-    .scroll-hint {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--muted);
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, transparent, var(--muted));
-      animation: scrollDown 1.8s ease-in-out infinite;
-    }
-
-    @keyframes scrollDown {
-      0% { transform: scaleY(0); transform-origin: top; }
-      50% { transform: scaleY(1); transform-origin: top; }
-      51% { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
-    }
-
-    /* ── PRODUCTS ── */
-    .products {
-      padding: 6rem 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .section-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      color: var(--text);
-      margin-bottom: 1rem;
-    }
-
-    .section-sub {
-      color: var(--muted);
-      font-size: 1.05rem;
-      font-weight: 300;
-      max-width: 480px;
-      margin-bottom: 4rem;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-
-    .product-card {
-      position: relative;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 3rem 2.5rem;
-      overflow: hidden;
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .product-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 24px;
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-
-    .product-card.blue::before {
-      background: radial-gradient(ellipse at top left, var(--blue-glow) 0%, transparent 60%);
-    }
-
-    .product-card.violet::before {
-      background: radial-gradient(ellipse at top left, var(--violet-glow) 0%, transparent 60%);
-    }
-
-    .product-card:hover::before { opacity: 1; }
-
-    .product-card:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-6px);
-    }
-
-    .product-card.blue:hover {
-      box-shadow: 0 24px 60px rgba(59,130,246,0.15);
-    }
-
-    .product-card.violet:hover {
-      box-shadow: 0 24px 60px rgba(139,92,246,0.15);
-    }
-
-    .product-icon {
-      width: 56px; height: 56px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-    }
-
-    .blue .product-icon { background: rgba(59,130,246,0.15); }
-    .violet .product-icon { background: rgba(139,92,246,0.15); }
-
-    .product-tag {
-      display: inline-flex;
-      padding: 0.25rem 0.7rem;
-      border-radius: 100px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .blue .product-tag { background: rgba(59,130,246,0.15); color: var(--blue); }
-    .violet .product-tag { background: rgba(139,92,246,0.15); color: var(--violet); }
-
-    .product-name {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .product-desc {
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    .product-features {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      margin-top: auto;
-    }
-
-    .product-features li {
-      font-size: 0.88rem;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .product-features li::before {
-      content: '→';
-      font-size: 0.8rem;
-    }
-
-    .blue .product-features li::before { color: var(--blue); }
-    .violet .product-features li::before { color: var(--violet); }
-
-    .product-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.9rem;
-      font-weight: 600;
-      padding: 0.65rem 1.4rem;
-      border-radius: 10px;
-      margin-top: 1rem;
-      align-self: flex-start;
-      transition: all 0.2s;
-    }
-
-    .blue .product-cta {
-      background: var(--blue);
-      color: #fff;
-      box-shadow: 0 4px 20px var(--blue-glow);
-    }
-
-    .violet .product-cta {
-      background: var(--violet);
-      color: #fff;
-      box-shadow: 0 4px 20px var(--violet-glow);
-    }
-
-    .blue .product-cta:hover { background: #5b9eff; }
-    .violet .product-cta:hover { background: #a78bfa; }
-
-    /* ── DIVIDER ── */
-    .divider {
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--border), transparent);
-      margin: 0 2rem;
-    }
-
-    /* ── WHY SECTION ── */
-    .why {
-      padding: 6rem 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .why-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-top: 3rem;
-    }
-
-    .why-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 2rem;
-      transition: border-color 0.3s;
-    }
-
-    .why-card:hover { border-color: var(--border-hover); }
-
-    .why-icon {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .why-card h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .why-card p {
-      font-size: 0.88rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2.5rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .footer-logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 1rem;
-      color: var(--muted);
-    }
-
-    .footer-logo span { color: var(--blue); }
-
-    .footer-links {
-      display: flex;
-      gap: 1.5rem;
-      list-style: none;
-    }
-
-    .footer-links a {
-      font-size: 0.85rem;
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover { color: var(--text); }
-
-    .footer-copy {
-      font-size: 0.82rem;
-      color: rgba(255,255,255,0.2);
-    }
-
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      .product-grid { grid-template-columns: 1fr; }
-      .why-grid { grid-template-columns: 1fr; }
-      footer { flex-direction: column; align-items: flex-start; }
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- 분리된 External CSS 링크 -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <nav>
-    <a href="./" class="nav-logo">Flow<span>Studio</span></a>
-    <ul class="nav-links">
-      <li><a href="./workerflow/">WorkerFlow</a></li>
-      <li><a href="./slideflow/">SlideFlow</a></li>
-    </ul>
-  </nav>
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="brand-logo">Flow Series</a>
+      
+      <ul class="nav-menu">
+        <li class="nav-item-dropdown">
+          <a href="#products">
+            <span data-i18n="navProducts">상품들</span> <span style="font-size: 0.7rem;">▾</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="./workerflow/" class="dropdown-item">
+                <span class="dropdown-icon">📅</span>
+                <div class="dropdown-text">
+                  <span class="dropdown-title">workerFlow</span>
+                  <span class="dropdown-desc" data-i18n="subWf">스케줄 위젯</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="./slideflow/" class="dropdown-item">
+                <span class="dropdown-icon">🖼️</span>
+                <div class="dropdown-text">
+                  <span class="dropdown-title">slideFlow</span>
+                  <span class="dropdown-desc" data-i18n="subSf">미니멀 뷰어</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="./focusflow/" class="dropdown-item">
+                <span class="dropdown-icon">🎯</span>
+                <div class="dropdown-text">
+                  <span class="dropdown-title">focusFlow</span>
+                  <span class="dropdown-desc" data-i18n="subFf">할일 & 몰입</span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </li>
 
+        <li><a href="./downloads/" data-i18n="navDownloads">다운로드</a></li>
+        <li><a href="#connect" data-i18n="navConnect">고객센터</a></li>
+      </ul>
+
+      <div class="lang-selector">
+        <select class="lang-select" id="languageSelect">
+          <option value="ko">한국어</option>
+          <option value="en">English</option>
+          <option value="ja">日本語</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
   <section class="hero">
-    <div class="blob blob-blue"></div>
-    <div class="blob blob-violet"></div>
-
-    <div class="hero-eyebrow">Desktop Apps by Flow Studio</div>
-
-    <h1>
-      <span class="line-1">Built for the way</span>
-      <span class="line-2">you actually work.</span>
-    </h1>
-
-    <p class="hero-desc">Two carefully crafted desktop applications — one for mastering your schedule, one for experiencing your images.</p>
-
-    <div class="hero-cta">
-      <a href="./workerflow/" class="btn-primary">Explore WorkerFlow</a>
-      <a href="./slideflow/" class="btn-secondary">Explore SlideFlow</a>
-    </div>
-
-    <div class="scroll-hint">
-      <div class="scroll-line"></div>
+    <span class="hero-badge" data-i18n="heroBadge">Next-Gen Workspace Tools</span>
+    <h1 data-i18n="heroTitle">업무와 창작의 완벽한 흐름,<br><span class="gradient-text">Flow Series</span></h1>
+    <p data-i18n="heroDesc">투명한 일정 관리부터 압도적인 비주얼 슬라이드 경험까지. 직관적인 데스크톱 솔루션으로 완벽한 몰입을 경험하세요.</p>
+    <div class="btn-group">
+      <a href="#products" class="btn btn-primary" data-i18n="btnExplore">제품 둘러보기</a>
+      <a href="#downloads" class="btn btn-secondary" data-i18n="btnDownload">다운로드 센터</a>
     </div>
   </section>
 
-  <section class="products">
-    <p class="section-label">Our Applications</p>
-    <h2 class="section-title">Two tools. One vision.</h2>
-    <p class="section-sub">Distraction-free software that integrates seamlessly into your desktop environment.</p>
+  <!-- Products -->
+  <section id="products" class="products-section">
+    <div class="section-header">
+      <h2 class="section-title" data-i18n="productsTitle">상품 라인업</h2>
+      <p class="section-subtitle" data-i18n="productsSub">당신의 핵심 업무 흐름을 돕는 Flow Series의 소프트웨어입니다.</p>
+    </div>
 
-    <div class="product-grid">
-      <a href="./workerflow/" class="product-card blue">
+    <div class="grid-2">
+      <!-- workerFlow -->
+      <div class="card">
         <div>
-          <div class="product-icon">🗓</div>
+          <div class="card-header">
+            <div class="card-icon">📅</div>
+            <h3 class="card-title">workerFlow</h3>
+          </div>
+          <p class="card-desc" data-i18n="wfDesc">바탕화면에 자연스럽게 녹아드는 타임라인 기반 스케줄 위젯입니다. Google Calendar 동기화와 직관적인 타임라인으로 오늘 하루의 흐름을 한눈에 파악하세요.</p>
+          <ul class="card-features">
+            <li data-i18n="wfF1">Google Calendar 실시간 연동</li>
+            <li data-i18n="wfF2">타임라인 & 월간 일정 뷰 제공</li>
+            <li data-i18n="wfF3">Windows Mica 투명 반투명 위젯 UI</li>
+            <li data-i18n="wfF4">서버 저장 없는 로컬 중심의 안전한 데이터 관리</li>
+          </ul>
         </div>
-        <div class="product-tag">Productivity · Windows</div>
-        <div class="product-name">WorkerFlow</div>
-        <p class="product-desc">A transparent timeline calendar widget that blends perfectly into your desktop. Visualize your entire day at a glance — synced with Google Calendar, always in view.</p>
-        <ul class="product-features">
-          <li>Google Calendar sync with live updates</li>
-          <li>Timeline + Monthly calendar view</li>
-          <li>Windows Mica translucent widget</li>
-          <li>Local scheduling, no server needed</li>
-        </ul>
-        <div class="product-cta">Explore WorkerFlow →</div>
-      </a>
+        <a href="#downloads" class="btn btn-secondary" style="text-align: center; justify-content: center;" data-i18n="btnGetWf">workerFlow 받기</a>
+      </div>
 
-      <a href="./slideflow/" class="product-card violet">
+      <!-- slideFlow -->
+      <div class="card">
         <div>
-          <div class="product-icon">🖼</div>
+          <div class="card-header">
+            <div class="card-icon">🖼️</div>
+            <h3 class="card-title">slideFlow</h3>
+          </div>
+          <p class="card-desc" data-i18n="sfDesc">디자이너와 크리에이터를 위한 불필요한 요소 없는 미니멀 이미지 뷰어입니다. 드래그 앤 드롭으로 이미지 및 폴더를 감상하고 완벽하게 몰입할 수 있습니다.</p>
+          <ul class="card-features">
+            <li data-i18n="sfF1">몰입형 전체 화면 시청 모드</li>
+            <li data-i18n="sfF2">폴더 드래그 앤 드롭 탐색 지원</li>
+            <li data-i18n="sfF3">사용자 지정 재생 간격의 슬라이드쇼</li>
+            <li data-i18n="sfF4">macOS 및 Windows 크로스 플랫폼 지원</li>
+          </ul>
         </div>
-        <div class="product-tag">Creativity · macOS & Windows</div>
-        <div class="product-name">SlideFlow</div>
-        <p class="product-desc">A minimalist image viewer designed for designers, developers, and photo enthusiasts. Drag, drop, and immerse. The UI disappears — only your photos remain.</p>
-        <ul class="product-features">
-          <li>Intelligent fullscreen immersive mode</li>
-          <li>Drag & drop folder navigation</li>
-          <li>Custom slideshow with interval control</li>
-          <li>Cross-platform: macOS & Windows</li>
-        </ul>
-        <div class="product-cta">Explore SlideFlow →</div>
-      </a>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <section class="why">
-    <p class="section-label">Design Philosophy</p>
-    <h2 class="section-title">Less interface.<br>More flow.</h2>
-
-    <div class="why-grid">
-      <div class="why-card">
-        <div class="why-icon">🔒</div>
-        <h3>Privacy First</h3>
-        <p>All data stays on your local device. No external servers, no telemetry. Your schedule and photos never leave your PC.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">⚡</div>
-        <h3>Always There</h3>
-        <p>Designed to live on your desktop — not to be opened and closed. WorkerFlow's widget is always visible, SlideFlow launches instantly.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-icon">🌍</div>
-        <h3>Multilingual</h3>
-        <p>Built-in support for Korean, English, Japanese, Simplified Chinese, and Spanish — for users around the world.</p>
+        <a href="#downloads" class="btn btn-secondary" style="text-align: center; justify-content: center;" data-i18n="btnGetSf">slideFlow 받기</a>
       </div>
     </div>
   </section>
 
+  <!-- Design Philosophy (Why Flow Series) Section -->
+  <section class="products-section" style="margin: 6rem auto;">
+    <div class="section-header">
+      <span class="hero-badge" data-i18n="whyLabel">Design Philosophy</span>
+      <h2 class="section-title" data-i18n="whyTitle">인터페이스는 최소한으로,<br><span class="gradient-text">몰입과 흐름은 극대화.</span></h2>
+      <p class="section-subtitle" data-i18n="whySub">Flow Series는 복잡한 기능을 덜어내고 사용자의 업무와 창작 흐름을 방해하지 않는 소프트웨어를 만듭니다.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- 1. Privacy First -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🔒</div>
+          <h3 class="card-title" data-i18n="why1Title">100% 로컬 보안 중심</h3>
+        </div>
+        <p class="card-desc" data-i18n="why1Desc">모든 데이터는 오직 사용자의 기기에만 안전하게 저장됩니다. 외부 서버 전송이나 추적 코드 없이, 일정을 포함한 모든 소중한 개인정보를 안전하게 보호합니다.</p>
+      </div>
+
+      <!-- 2. Always There -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">⚡</div>
+          <h3 class="card-title" data-i18n="why2Title">언제나 바탕화면에 상주</h3>
+        </div>
+        <p class="card-desc" data-i18n="why2Desc">매번 앱을 켰다 끌 필요가 없습니다. workerFlow의 위젯은 항상 바탕화면에 은은하게 녹아들어 있고, slideFlow는 딜레이 없이 즉시 실행됩니다.</p>
+      </div>
+
+      <!-- 3. Minimal & Intuitive UX -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🎨</div>
+          <h3 class="card-title" data-i18n="why3Title">미니멀 UI & 군더더기 없는 디자인</h3>
+        </div>
+        <p class="card-desc" data-i18n="why3Desc">Windows Mica 투명 효과와 반투명 Glassmorphism UI로 바탕화면과 조화를 이룹니다. 군더더기 없는 레이아웃으로 오직 작업과 이미지에만 집중할 수 있습니다.</p>
+      </div>
+
+      <!-- 4. Global Multilingual -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🌍</div>
+          <h3 class="card-title" data-i18n="why4Title">7개 국어 다국어 지원</h3>
+        </div>
+        <p class="card-desc" data-i18n="why4Desc">전 세계 사용자를 위해 한국어, 영어, 일본어, 중국어(간체/번체), 스페인어, 프랑스어를 시스템 언어에 맞춰 기본적으로 지원합니다.</p>
+      </div>
+    </div>
+
+    <!-- 5. Cross-Platform Support (Wide Card) -->
+    <div class="card" style="margin-top: 2rem; background: var(--brand-gradient-soft); border-color: rgba(2, 85, 202, 0.2);">
+      <div class="card-header">
+        <div class="card-icon" style="background: #FFF;">💻</div>
+        <h3 class="card-title" data-i18n="why5Title">Windows & macOS 최적화 호환성</h3>
+      </div>
+      <p class="card-desc" style="color: var(--text-main);" data-i18n="why5Desc">크로스 플랫폼 환경을 고려하여 각 OS의 네이티브 감성에 맞는 최적화된 경험을 제공합니다. 사용자의 디바이스 환경에 구애받지 않고 언제 어디서나 동일한 흐름을 유지하세요.</p>
+    </div>
+  </section>
+
+  <!-- Downloads -->
+  <!-- <section id="downloads" class="downloads-section">
+    <div class="section-header">
+      <h2 class="section-title" data-i18n="dlTitle">다운로드 센터</h2>
+      <p class="section-subtitle" data-i18n="dlSub">최신 버전 및 이전버전 아카이브를 제공합니다.</p>
+    </div>
+
+    <div class="archive-box">
+      <h3 style="margin-bottom: 1rem; font-size: 1.1rem;" data-i18n="archiveTitle">이전 버전 아카이브 (Release History)</h3>
+      <table class="archive-table">
+        <thead>
+          <tr>
+            <th data-i18n="thSoftware">소프트웨어</th>
+            <th data-i18n="thVersion">버전</th>
+            <th data-i18n="thPlatform">OS / 플랫폼</th>
+            <th data-i18n="thDownload">다운로드</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>workerFlow</strong></td>
+            <td>v1.1.0 (<span data-i18n="latestTag">최신</span>)</td>
+            <td>Windows 10/11 (.exe)</td>
+            <td><a href="#" class="dl-link" data-i18n="linkDl">다운로드</a></td>
+          </tr>
+          <tr>
+            <td><strong>workerFlow</strong></td>
+            <td>v1.0.2 (<span data-i18n="olderTag">이전버전</span>)</td>
+            <td>Windows 10/11 (.exe)</td>
+            <td><a href="#" class="dl-link" data-i18n="linkDl">다운로드</a></td>
+          </tr>
+          <tr>
+            <td><strong>slideFlow</strong></td>
+            <td>v2.0.1 (<span data-i18n="latestTag">최신</span>)</td>
+            <td>macOS / Windows</td>
+            <td><a href="#" class="dl-link" data-i18n="linkDl">다운로드</a></td>
+          </tr>
+          <tr>
+            <td><strong>slideFlow</strong></td>
+            <td>v1.9.0 (<span data-i18n="olderTag">이전버전</span>)</td>
+            <td>macOS / Windows</td>
+            <td><a href="#" class="dl-link" data-i18n="linkDl">다운로드</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section> -->
+
+  <!-- Connect -->
+  <section id="connect" class="connect-section">
+    <div class="contact-card">
+      <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;" data-i18n="connectTitle">고객센터 & 커넥트</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;" data-i18n="connectSub">제품 문의, 피드백, 또는 기술 지원이 필요하신가요?</p>
+      <a href="mailto:support@flow-series.github.io" class="btn btn-primary" data-i18n="btnContact">문의하기 (Connect)</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
   <footer>
-    <div class="footer-logo">Flow<span>Studio</span></div>
-    <ul class="footer-links">
-      <li><a href="./workerflow/">WorkerFlow</a></li>
-      <li><a href="./workerflow/privacy.html">Privacy Policy</a></li>
-      <li><a href="./workerflow/service.html">Terms of Service</a></li>
-      <li><a href="./slideflow/">SlideFlow</a></li>
-      <li><a href="./slideflow/privacy.html">Privacy Policy</a></li>
-      <li><a href="./slideflow/service.html">Terms of Service</a></li>
-    </ul>
-    <span class="footer-copy">© 2026 Flow Studio. All rights reserved.</span>
+    <div class="footer-container">
+      <div>
+        <p style="font-weight: 700; color: #FFF; font-size: 1.1rem; margin-bottom: 0.3rem;">Flow Series</p>
+        <p style="font-size: 0.8rem;">© 2026 Flow Series. All rights reserved.</p>
+      </div>
+      
+      <ul class="footer-links">
+        <li><a href="#connect" data-i18n="footConnect">커넥트</a></li>
+        <li><a href="./privacy.html" class="footer-policy" data-i18n="footPrivacy">개인정보보호정책</a></li>
+        <li><a href="./terms.html" class="footer-policy" data-i18n="footTerms">서비스 약관</a></li>
+      </ul>
+    </div>
   </footer>
 
+  <!-- 분리된 External JS 불러오기 -->
+  <script src="js/i18n.js"></script>
 </body>
 </html>
