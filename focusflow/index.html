@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>focusFlow — Web-Based To-Do & Deep Work App</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- 공통 CSS 불러오기 -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- Header / Navigation -->
+  <header>
+    <div class="nav-container">
+      <a href="../" class="brand-logo">Flow Series</a>
+      
+      <ul class="nav-menu">
+        <li class="nav-item-dropdown">
+          <a href="../#products">
+            <span data-i18n="navProducts">상품들</span> <span style="font-size: 0.7rem;">▾</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="../workerflow/" class="dropdown-item">
+                <span class="dropdown-icon">📅</span>
+                <div class="dropdown-text">
+                  <span class="dropdown-title">workerFlow</span>
+                  <span class="dropdown-desc" data-i18n="subWf">스케줄 위젯</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="../slideflow/" class="dropdown-item">
+                <span class="dropdown-icon">🖼️</span>
+                <div class="dropdown-text">
+                  <span class="dropdown-title">slideFlow</span>
+                  <span class="dropdown-desc" data-i18n="subSf">미니멀 뷰어</span>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="../focusflow/" class="dropdown-item">
+                <span class="dropdown-icon">🎯</span>
+                <div class="dropdown-text">
+                  <span class="dropdown-title">focusFlow</span>
+                  <span class="dropdown-desc" data-i18n="subFf">할일 & 몰입</span>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li><a href="../downloads/" data-i18n="navDownloads">다운로드</a></li>
+        <li><a href="../#connect" data-i18n="navConnect">고객센터</a></li>
+      </ul>
+
+      <!-- 언어 설정 -->
+      <div class="lang-selector">
+        <select class="lang-select" id="languageSelect">
+          <option value="ko">한국어</option>
+          <option value="en">English</option>
+          <option value="ja">日本語</option>
+          <option value="zh-CN">简体中文</option>
+          <option value="zh-TW">繁體中文</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <span class="hero-badge" data-i18n="ffHeroBadge">🎯 Web App · Productivity & Focus</span>
+    <h1 data-i18n="ffHeroTitle">할 일 관리와 몰입을<br><span class="gradient-text">하나의 흐름으로.</span></h1>
+    <p data-i18n="ffHeroDesc">focusFlow는 별도의 설치 없이 웹 브라우저에서 바로 사용할 수 있는 직관적인 할 일 관리 및 뽀모도로 몰입 타이머 앱입니다.</p>
+
+    <!-- 외부 서비스 연결 박스 -->
+    <div class="archive-box" style="max-width: 520px; text-align: center; margin-top: 1.5rem; padding: 1.5rem;">
+      <h3 style="font-size: 0.95rem; margin-bottom: 1.2rem; color: var(--text-muted);" data-i18n="ffAppLaunchTitle">웹에서 바로 실행하기</h3>
+      
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <!-- Vercel 앱 이동 버튼 (새 창) -->
+        <a href="https://focus-flow-black-six.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="justify-content: space-between; padding: 1rem 1.5rem;">
+          <span style="display: flex; align-items: center; gap: 0.75rem;">
+            <span style="font-size: 1.4rem;">🚀</span>
+            <span style="text-align: left;">
+              <span style="font-size: 0.75rem; opacity: 0.85; display: block;" data-i18n="ffAppLaunchLabel">설치 없는 웹 서비스</span>
+              <span style="font-weight: 700;">focusFlow 실행하기</span>
+            </span>
+          </span>
+          <span>↗</span>
+        </a>
+      </div>
+
+      <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);" data-i18n="ffAppNote">모든 현대식 웹 브라우저(Chrome, Safari, Edge) 지원 · 로그인 없이 즉시 시작</p>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="products-section">
+    <div class="section-header">
+      <h2 class="section-title" data-i18n="ffFeatTitle">주요 기능</h2>
+      <p class="section-subtitle" data-i18n="ffFeatSub">복잡함은 줄이고, 온전히 오늘의 과업과 집중력 향상에만 고심했습니다.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">✅</div>
+          <h3 class="card-title" data-i18n="ffF1Title">직관적인 할 일(To-Do) 관리</h3>
+        </div>
+        <p class="card-desc" data-i18n="ffF1Desc">우선순위 설정과 태그 분류로 오늘 해결해야 할 할 일 목록을 빠르게 정리하고 체크할 수 있습니다.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">⏱️</div>
+          <h3 class="card-title" data-i18n="ffF2Title">몰입 뽀모도로 타이머</h3>
+        </div>
+        <p class="card-desc" data-i18n="ffF2Desc">25분 집중과 5분 휴식의 뽀모도로 사이클을 제공하여 지치지 않고 지속적인 고몰입 상태를 유지하도록 돕습니다.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">📊</div>
+          <h3 class="card-title" data-i18n="ffF3Title">일일 집중 통계</h3>
+        </div>
+        <p class="card-desc" data-i18n="ffF3Desc">오늘 완료한 할 일의 개수와 총 몰입 시간을 시각적으로 확인하고 성취감을 체감할 수 있습니다.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🌐</div>
+          <h3 class="card-title" data-i18n="ffF4Title">무설치 웹 크로스 플랫폼</h3>
+        </div>
+        <p class="card-desc" data-i18n="ffF4Desc">Windows, macOS, 태블릿, 모바일 등 어떤 기기에서든 브라우저만 있다면 바로 사용할 수 있습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Specs Section -->
+  <section class="downloads-section">
+    <div class="section-header">
+      <h2 class="section-title" data-i18n="ffSpecTitle">서비스 정보</h2>
+    </div>
+
+    <div class="archive-box" style="max-width: 900px;">
+      <table class="archive-table">
+        <tbody>
+          <tr>
+            <th data-i18n="specPlatform">지원 환경</th>
+            <td>Web Browsers (Chrome, Safari, Edge, Firefox 등)</td>
+          </tr>
+          <tr>
+            <th data-i18n="ffCostSpec">이용 비용</th>
+            <td data-i18n="ffCostVal">무료 (Free Web Service)</td>
+          </tr>
+          <tr>
+            <th data-i18n="specStorage">데이터 저장 방식</th>
+            <td data-i18n="specStorageVal">100% 로컬 오프라인 저장소</td>
+          </tr>
+          <tr>
+            <th data-i18n="specLang">지원 언어</th>
+            <td>한국어, English, 日本語, 中文 (간체/번체), Español, Français</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div>
+        <p style="font-weight: 700; color: #FFF; font-size: 1.1rem; margin-bottom: 0.3rem;">focusFlow</p>
+        <p style="font-size: 0.8rem;">© 2026 Flow Series. All rights reserved.</p>
+      </div>
+      
+      <ul class="footer-links">
+        <li><a href="../#connect" data-i18n="footConnect">커넥트</a></li>
+        <li><a href="./privacy.html" class="footer-policy" data-i18n="footPrivacy">개인정보보호정책</a></li>
+        <li><a href="./service.html" class="footer-policy" data-i18n="footTerms">서비스 약관</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- 공통 i18n 스크립트 연결 -->
+  <script src="../js/i18n.js"></script>
+</body>
+</html>
