@@ -192,13 +192,17 @@ const translations = {
 /**
  * 언어 변경 및 DOM 업데이트 함수
  */
+/**
+ * 언어 변경 및 DOM 전체 업데이트 함수
+ */
 function setLanguage(lang) {
   if (!translations[lang]) return;
 
+  // 1. data-i18n 속성을 가진 모든 요소 텍스트/HTML 변경
   const elements = document.querySelectorAll('[data-i18n]');
   elements.forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (translations[lang][key]) {
+    if (translations[lang] && translations[lang][key] !== undefined) {
       if (translations[lang][key].includes('<')) {
         el.innerHTML = translations[lang][key];
       } else {
@@ -207,10 +211,15 @@ function setLanguage(lang) {
     }
   });
 
+  // 2. 로컬 스토리지 저장 및 html lang 태그 변경
   localStorage.setItem('preferred_lang', lang);
-  const langSelect = document.getElementById('languageSelect');
-  if (langSelect) langSelect.value = lang;
   document.documentElement.lang = lang;
+
+  // 3. 페이지 내 모든 언어 셀렉터의 선택값 동기화
+  const langSelects = document.querySelectorAll('.lang-select, #languageSelect');
+  langSelects.forEach(select => {
+    select.value = lang;
+  });
 }
 
 /**
@@ -220,6 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const langSelect = document.getElementById('languageSelect');
   const savedLang = localStorage.getItem('preferred_lang');
   const browserLang = navigator.language.slice(0, 2);
+  
+  // 저장된 언어 > 브라우저 언어 > 기본값(ko)
   const initialLang = savedLang || (translations[browserLang] ? browserLang : 'ko');
 
   setLanguage(initialLang);
