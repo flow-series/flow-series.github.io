@@ -24,7 +24,7 @@ const translations = {
     why1Title: "100% 로컬 보안 중심", why1Desc: "모든 데이터는 오직 사용자의 기기에만 안전하게 저장됩니다. 외부 서버 전송이나 추적 코드 없이 개인정보를 안전하게 보호합니다.",
     why2Title: "언제나 바탕화면에 상주", why2Desc: "매번 앱을 켰다 끌 필요가 없습니다. workerFlow의 위젯은 항상 바탕화면에 녹아들어 있고, slideFlow는 딜레이 없이 즉시 실행됩니다.",
     why3Title: "미니멀 UI & 군더더기 없는 디자인", why3Desc: "Windows Mica 투명 효과와 유리 질감의 UI로 바탕화면과 조화를 이룹니다. 군더더기 없는 레이아웃으로 오직 작업에만 몰입할 수 있습니다.",
-    why4Title: "7개 국어 완벽 지원", why4Desc: "전 세계 사용자를 위해 한국어, 영어, 일본어, 중국어(간체/번체), 스페인어, 프랑스어를 기본적으로 지원합니다.",
+    why4Title: "7개 국어 완벽 지원", why4Desc: "전 세계 사용자를 위해 한국어, 영어, 일본어, 중국어, 스페인어, 프랑스어, 독일어를 기본적으로 지원합니다.",
     why5Title: "Windows & macOS 최적화 호환성", why5Desc: "크로스 플랫폼 환경을 고려하여 각 OS의 네이티브 감성에 맞는 최적화된 경험을 제공합니다. 어디서나 동일한 작업 흐름을 유지하세요.",
     dlCenterBadge: "Download Center", dlCenterTitle: 'Flow Series<br><span class="gradient-text">다운로드 센터</span>', dlCenterDesc: "모든 제품의 최신 설치 파일 및 이전 버전 아카이브를 한곳에서 다운로드하실 수 있습니다.",
     dlLatestTitle: "최신 버전 다운로드", dlLatestSub: "운영체제(OS)에 맞는 최신 버전을 선택하여 즉시 설치하세요.",
@@ -81,7 +81,7 @@ const translations = {
     why1Title: "Privacy First", why1Desc: "All data stays exclusively on your local device. No external servers, no telemetry. Your privacy is fully guaranteed.",
     why2Title: "Always There", why2Desc: "Designed to live on your desktop — not to be opened and closed. WorkerFlow's widget is always visible, SlideFlow launches instantly.",
     why3Title: "Minimalist UI Design", why3Desc: "Featuring Windows Mica translucent material and frosted glass UI elements. Stay focused on your photography and tasks.",
-    why4Title: "Multilingual Support", why4Desc: "Built-in native support for English, Korean, Japanese, Chinese (Simplified/Traditional), Spanish, and French.",
+    why4Title: "Multilingual Support", why4Desc: "Built-in native support for English, Korean, Japanese, Chinese, Spanish, French, and German.",
     why5Title: "Seamless Cross-Platform", why5Desc: "Engineered for both Windows and macOS environment. Experience consistent, native performance across all your devices.",
     dlCenterBadge: "Download Center", dlCenterTitle: 'Flow Series<br><span class="gradient-text">Download Center</span>', dlCenterDesc: "Download the latest installers and release archives for all Flow Series software.",
     dlLatestTitle: "Latest Version Downloads", dlLatestSub: "Choose the latest installer optimized for your operating system.",
@@ -132,7 +132,7 @@ const translations = {
     connectTitle: "サポート＆コネクト", connectSub: "ご質問、フィードバック、技術的なサポートが必要ですか？", btnContact: "お問い合わせ", footConnect: "コネクト", footPrivacy: "プライバシーポリシー", footTerms: "利用規約"
   },
 
-  // 4. 중국어 간체 (Simplified Chinese)
+  // 4. 중국어 (Simplified Chinese)
   'zh-CN': {
     navProducts: "产品", subWf: "日程小部件", subSf: "极简查看器", subFf: "待办 & 专注", navDownloads: "下载", navConnect: "支持",
     heroBadge: "Next-Gen Workspace Tools", heroTitle: '工作与创意的完美流畅,<br><span class="gradient-text">Flow Series</span>', heroDesc: "从透明的日程管理到沉浸式幻灯片体验。使用直观的桌面应用保持专注。",
@@ -147,22 +147,7 @@ const translations = {
     connectTitle: "客户支持", connectSub: "有疑问、建议或需要技术支持？", btnContact: "联系我们", footConnect: "联系", footPrivacy: "隐私政策", footTerms: "服务条款"
   },
 
-  // 5. 중국어 번체 (Traditional Chinese)
-  'zh-TW': {
-    navProducts: "產品", subWf: "日程小工具", subSf: "極簡檢視器", subFf: "待辦 & 專注", navDownloads: "下載", navConnect: "支援",
-    heroBadge: "Next-Gen Workspace Tools", heroTitle: '工作與創意的完美流暢,<br><span class="gradient-text">Flow Series</span>', heroDesc: "從透明的日程管理到沉浸式幻燈片體驗。使用直觀的桌面應用保持專注。",
-    btnExplore: "瀏覽產品", btnDownload: "下載中心", productsTitle: "產品系列", productsSub: "旨在提升您的工作效率和專注力的桌面軟體。",
-    wfDesc: "無縫融入桌面的時間線日程小工具。同步 Google 行事曆，一目了然掌握全天規劃。",
-    wfF1: "Google 行事曆即時同步", wfF2: "時間線 + 月曆檢視", wfF3: "Windows Mica 半透明小工具 UI", wfF4: "100% 本地資料安全，無需伺服器", btnGetWf: "取得 workerFlow",
-    sfDesc: "專為創作者設計的極簡圖片檢視器。拖放照片或資料夾，享受純粹的視覺沉浸感。",
-    sfF1: "沉浸式無干擾全螢幕模式", sfF2: "支援資料夾拖放瀏覽", sfF3: "自訂間隔時間的投影片播放", sfF4: "跨平台支援：macOS & Windows", btnGetSf: "取得 slideFlow",
-    ffDesc: "免安裝即可在 Web 上執行的直觀待辦應用。與 workerFlow 完美聯動，將任務與日程融為一體。",
-    ffMainF1: "直觀的待辦事項與優先順序管理", ffMainF2: "與 workerFlow 桌面小工具聯動", ffMainF3: "每日任務完成情況視覺化", ffMainF4: "基於 Web 的跨平台無縫體驗", btnGetFf: "了解 focusFlow",
-    dlTitle: "下載中心", dlSub: "取得最新版本和歷史版本歸檔。", archiveTitle: "版本發布歷史", thSoftware: "軟體", thVersion: "版本", thPlatform: "作業系統 / 平台", thReleaseDate: "發布日期", thDownload: "下載", latestTag: "最新", olderTag: "歷史版本", linkDl: "下載",
-    connectTitle: "客戶支援", connectSub: "有疑問、建議或需要技術支援？", btnContact: "聯絡我們", footConnect: "聯絡", footPrivacy: "隱私政策", footTerms: "服務條款"
-  },
-
-  // 6. 스페인어 (Spanish)
+  // 5. 스페인어 (Spanish)
   es: {
     navProducts: "Productos", subWf: "Widget de horario", subSf: "Visor minimalista", subFf: "Tareas y enfoque", navDownloads: "Descargas", navConnect: "Soporte",
     heroBadge: "Next-Gen Workspace Tools", heroTitle: 'Flujo perfecto para trabajo y visión,<br><span class="gradient-text">Flow Series</span>', heroDesc: "Desde la gestión transparente de horarios hasta experiencias visuales inmersivas. Mantente enfocado.",
@@ -175,7 +160,7 @@ const translations = {
     connectTitle: "Soporte y contacto", connectSub: "¿Tienes preguntas, comentarios o necesitas soporte técnico?", btnContact: "Contáctanos", footConnect: "Contacto", footPrivacy: "Política de privacidad", footTerms: "Términos de servicio"
   },
 
-  // 7. 프랑스어 (French)
+  // 6. 프랑스어 (French)
   fr: {
     navProducts: "Produits", subWf: "Widget de planning", subSf: "Visionneur minimal", subFf: "Tâches & Focus", navDownloads: "Téléchargements", navConnect: "Support",
     heroBadge: "Next-Gen Workspace Tools", heroTitle: 'Le flux parfait pour le travail et la vision,<br><span class="gradient-text">Flow Series</span>', heroDesc: "De la gestion transparente du calendrier aux diaporamas immersifs. Restez concentré.",
@@ -186,6 +171,21 @@ const translations = {
     ffMainF1: "Gestion intuitive des tâches et des priorités", ffMainF2: "Intégration fluide avec le widget workerFlow", ffMainF3: "Visualisation de l'avancement quotidien", ffMainF4: "Multiplateforme basée sur navigateur", btnGetFf: "Découvrir focusFlow",
     dlTitle: "Centre de téléchargement", dlSub: "Accédez aux dernières versions et aux archives.", archiveTitle: "Historique des versions", thSoftware: "Logiciel", thVersion: "Version", thPlatform: "OS / Plateforme", thReleaseDate: "Date", thDownload: "Télécharger", latestTag: "Récents", olderTag: "Ancien", linkDl: "Télécharger",
     connectTitle: "Support & Contact", connectSub: "Vous avez des questions ou besoin d'aide technique ?", btnContact: "Nous contacter", footConnect: "Contact", footPrivacy: "Politique de confidentialité", footTerms: "Conditions d'utilisation"
+  },
+
+  // 7. 독일어 (German)
+  de: {
+    navProducts: "Produkte", subWf: "Zeitplan-Widget", subSf: "Minimaler Viewer", subFf: "To-Do & Fokus", navDownloads: "Downloads", navConnect: "Support",
+    heroBadge: "Next-Gen Workspace Tools", heroTitle: 'Nahtloser Fluss für Arbeit & Vision,<br><span class="gradient-text">Flow Series</span>', heroDesc: "Von transparenter Zeitplanung bis zu immersiven Diashows. Bleiben Sie fokussiert mit unseren intuitiven Desktop-Apps.",
+    btnExplore: "Produkte entdecken", btnDownload: "Download-Center", productsTitle: "Produktpalette", productsSub: "Essenzielle Software, entwickelt um Ihre Produktivität zu steigern.",
+    wfDesc: "Ein Zeitplan-Widget, das sich nahtlos in Ihren Desktop einfügt. Synchronisieren Sie mit Google Calendar für den perfekten Überblick.",
+    wfF1: "Echtzeit-Synchronisation mit Google Calendar", wfF2: "Zeitleiste & Monatskalender-Ansichten", wfF3: "Transparente Windows Mica Widget-UI", wfF4: "100% lokale Datensicherheit, kein Server erforderlich", btnGetWf: "workerFlow holen",
+    sfDesc: "Ein ablenkungsfreier Bildbetrachter für Creator. Ziehen Sie Fotos oder Ordner hinein für visuelle Immersion.",
+    sfF1: "Immersiver Vollbildmodus", sfF2: "Ordner-Drag-and-Drop-Navigation", sfF3: "Benutzerdefinierte Diashow mit Intervallsteuerung", sfF4: "Plattformübergreifend: macOS & Windows", btnGetSf: "slideFlow holen",
+    ffDesc: "Eine intuitive Web-To-Do-App ohne Installation. Synchronisiert sich nahtlos mit workerFlow für Aufgaben und Zeitpläne.",
+    ffMainF1: "Intuitive To-Do-Liste & Prioritätenverwaltung", ffMainF2: "Nahtlose Integration mit dem workerFlow-Widget", ffMainF3: "Tägliche Aufgaben-Fortschrittsanalyse", ffMainF4: "Installationsfreie Web-Plattform", btnGetFf: "focusFlow entdecken",
+    dlTitle: "Download-Center", dlSub: "Greifen Sie auf die neuesten Versionen und Archive zu.", archiveTitle: "Versionshistorie", thSoftware: "Software", thVersion: "Version", thPlatform: "OS / Plattform", thReleaseDate: "Datum", thDownload: "Download", latestTag: "Neueste", olderTag: "Archiv", linkDl: "Download",
+    connectTitle: "Support & Kontakt", connectSub: "Haben Sie Fragen, Feedback oder benötigen Sie technischen Support?", btnContact: "Kontaktieren Sie uns", footConnect: "Kontakt", footPrivacy: "Datenschutzrichtlinie", footTerms: "Nutzungsbedingungen"
   }
 };
 
