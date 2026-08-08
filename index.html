@@ -11,6 +11,21 @@
 
   <!-- 분리된 External CSS 링크 -->
   <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    /* 3개 제품 배치를 위한 3열 그리드 추가 */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -80,7 +95,7 @@
     <p data-i18n="heroDesc">투명한 일정 관리부터 압도적인 비주얼 슬라이드 경험까지. 직관적인 데스크톱 솔루션으로 완벽한 몰입을 경험하세요.</p>
     <div class="btn-group">
       <a href="#products" class="btn btn-primary" data-i18n="btnExplore">제품 둘러보기</a>
-      <a href="#downloads" class="btn btn-secondary" data-i18n="btnDownload">다운로드 센터</a>
+      <a href="./downloads/" class="btn btn-secondary" data-i18n="btnDownload">다운로드 센터</a>
     </div>
   </section>
 
@@ -91,7 +106,7 @@
       <p class="section-subtitle" data-i18n="productsSub">당신의 핵심 업무 흐름을 돕는 Flow Series의 소프트웨어입니다.</p>
     </div>
 
-    <div class="grid-2">
+    <div class="grid-3">
       <!-- workerFlow -->
       <div class="card">
         <div>
@@ -107,7 +122,7 @@
             <li data-i18n="wfF4">서버 저장 없는 로컬 중심의 안전한 데이터 관리</li>
           </ul>
         </div>
-        <a href="#downloads" class="btn btn-secondary" style="text-align: center; justify-content: center;" data-i18n="btnGetWf">workerFlow 받기</a>
+        <a href="./workerflow/" class="btn btn-secondary" style="text-align: center; justify-content: center;" data-i18n="btnGetWf">workerFlow 받기</a>
       </div>
 
       <!-- slideFlow -->
@@ -125,7 +140,25 @@
             <li data-i18n="sfF4">macOS 및 Windows 크로스 플랫폼 지원</li>
           </ul>
         </div>
-        <a href="#downloads" class="btn btn-secondary" style="text-align: center; justify-content: center;" data-i18n="btnGetSf">slideFlow 받기</a>
+        <a href="./slideflow/" class="btn btn-secondary" style="text-align: center; justify-content: center;" data-i18n="btnGetSf">slideFlow 받기</a>
+      </div>
+
+      <!-- focusFlow -->
+      <div class="card">
+        <div>
+          <div class="card-header">
+            <div class="card-icon">🎯</div>
+            <h3 class="card-title">focusFlow</h3>
+          </div>
+          <p class="card-desc" data-i18n="ffDesc">별도의 설치 없이 웹 브라우저에서 바로 사용할 수 있는 직관적인 할 일 관리 및 뽀모도로 몰입 타이머 앱입니다.</p>
+          <ul class="card-features">
+            <li data-i18n="ffMainF1">직관적인 To-Do 리스트 & 우선순위 관리</li>
+            <li data-i18n="ffMainF2">25분 집중 & 5분 휴식 뽀모도로 타이머</li>
+            <li data-i18n="ffMainF3">일일 몰입 통계 및 완료 현황 시각화</li>
+            <li data-i18n="ffMainF4">웹 브라우저 기반 무설치 크로스 플랫폼</li>
+          </ul>
+        </div>
+        <a href="./focusflow/" class="btn btn-secondary" style="text-align: center; justify-content: center;" data-i18n="btnGetFf">focusFlow 알아보기</a>
       </div>
     </div>
   </section>
@@ -185,54 +218,6 @@
       <p class="card-desc" style="color: var(--text-main);" data-i18n="why5Desc">크로스 플랫폼 환경을 고려하여 각 OS의 네이티브 감성에 맞는 최적화된 경험을 제공합니다. 사용자의 디바이스 환경에 구애받지 않고 언제 어디서나 동일한 흐름을 유지하세요.</p>
     </div>
   </section>
-
-  <!-- Downloads -->
-  <!-- <section id="downloads" class="downloads-section">
-    <div class="section-header">
-      <h2 class="section-title" data-i18n="dlTitle">다운로드 센터</h2>
-      <p class="section-subtitle" data-i18n="dlSub">최신 버전 및 이전버전 아카이브를 제공합니다.</p>
-    </div>
-
-    <div class="archive-box">
-      <h3 style="margin-bottom: 1rem; font-size: 1.1rem;" data-i18n="archiveTitle">이전 버전 아카이브 (Release History)</h3>
-      <table class="archive-table">
-        <thead>
-          <tr>
-            <th data-i18n="thSoftware">소프트웨어</th>
-            <th data-i18n="thVersion">버전</th>
-            <th data-i18n="thPlatform">OS / 플랫폼</th>
-            <th data-i18n="thDownload">다운로드</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>workerFlow</strong></td>
-            <td>v1.1.0 (<span data-i18n="latestTag">최신</span>)</td>
-            <td>Windows 10/11 (.exe)</td>
-            <td><a href="#" class="dl-link" data-i18n="linkDl">다운로드</a></td>
-          </tr>
-          <tr>
-            <td><strong>workerFlow</strong></td>
-            <td>v1.0.2 (<span data-i18n="olderTag">이전버전</span>)</td>
-            <td>Windows 10/11 (.exe)</td>
-            <td><a href="#" class="dl-link" data-i18n="linkDl">다운로드</a></td>
-          </tr>
-          <tr>
-            <td><strong>slideFlow</strong></td>
-            <td>v2.0.1 (<span data-i18n="latestTag">최신</span>)</td>
-            <td>macOS / Windows</td>
-            <td><a href="#" class="dl-link" data-i18n="linkDl">다운로드</a></td>
-          </tr>
-          <tr>
-            <td><strong>slideFlow</strong></td>
-            <td>v1.9.0 (<span data-i18n="olderTag">이전버전</span>)</td>
-            <td>macOS / Windows</td>
-            <td><a href="#" class="dl-link" data-i18n="linkDl">다운로드</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section> -->
 
   <!-- Connect -->
   <section id="connect" class="connect-section">

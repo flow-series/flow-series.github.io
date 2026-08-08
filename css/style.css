@@ -97,6 +97,13 @@ header {
   margin-top: 0.5rem;
 }
 
+/* Hover 시 translateX(-50%)를 유지하면서 Y축만 이동 */
+.nav-item-dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
 .dropdown-item {
   display: flex;
   align-items: center;
