@@ -388,21 +388,19 @@ function setLanguage(lang) {
 }
 
 /**
- * 초기화 이벤트 핸들러
+ * 초기화 및 이벤트 위임(Event Delegation)
  */
 document.addEventListener('DOMContentLoaded', () => {
-  const langSelect = document.getElementById('languageSelect');
   const savedLang = localStorage.getItem('preferred_lang');
   const browserLang = navigator.language.slice(0, 2);
-  
-  // 저장된 언어 > 브라우저 언어 > 기본값(ko)
   const initialLang = savedLang || (translations[browserLang] ? browserLang : 'ko');
 
   setLanguage(initialLang);
+});
 
-  if (langSelect) {
-    langSelect.addEventListener('change', (e) => {
-      setLanguage(e.target.value);
-    });
+// 문서 전체에 이벤트를 걸어 동적으로 추가된 #languageSelect 변경도 감지 (이벤트 위임)
+document.addEventListener('change', (e) => {
+  if (e.target && (e.target.id === 'languageSelect' || e.target.classList.contains('lang-select'))) {
+    setLanguage(e.target.value);
   }
 });
