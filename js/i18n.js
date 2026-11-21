@@ -55,7 +55,7 @@ const translations = {
     ffF3Title: "일일 과업 완료 통계", ffF3Desc: "오늘 달성한 할 일의 개수와 진척도를 한눈에 시각적으로 확인하고 지속적인 목표 달성 동기를 부여받으세요.",
     ffF4Title: "무설치 웹 크로스 플랫폼", ffF4Desc: "Windows, macOS, 태블릿, 모바일 등 기기와 장소에 제한 없이 웹 브라우저만 있다면 즉시 접속 가능합니다.",
     ffSpecTitle: "서비스 정보", ffCostSpec: "이용 비용", ffCostVal: "무료 (Free Web Service)", ffIntegrationSpec: "제품 연동", ffIntegrationVal: "workerFlow 스케줄 위젯과 연동 지원",
-    connectTitle: "고객센터 & 커넥트", connectSub: "제품 문의, 피드백, 또는 기술 지원이 필요하신가요?", btnContact: "문의하기 (Connect)",
+    connectTitle: "고객센터 & 커넥트", connectSub: "제품 문의, 피드백, 또는 기술 지원이 필요하신가요?", btnContact: "문의 보내기", contactEmailLabel: "이메일 주소", contactEmailPlaceholder: "답변 받을 이메일 주소", contactMessageLabel: "문의 내용", contactMessagePlaceholder: "문의 내용을 입력해 주세요", contactNotice: "보내주신 이메일 주소와 문의 내용은 답변을 위해서만 사용됩니다.",
     footConnect: "커넥트", footPrivacy: "개인정보보호정책", footTerms: "서비스 약관"
   },
 
@@ -112,7 +112,7 @@ const translations = {
     ffF3Title: "Daily Task Analytics", ffF3Desc: "Visually track your completed tasks and progress to build consistent daily momentum.",
     ffF4Title: "Zero-Installation Cross Platform", ffF4Desc: "Accessible on any device—Windows, macOS, tablet, or mobile—directly through your browser.",
     ffSpecTitle: "Service Details", ffCostSpec: "Pricing", ffCostVal: "Free Web Service", ffIntegrationSpec: "Integration", ffIntegrationVal: "Supported with workerFlow widget",
-    connectTitle: "Support & Connect", connectSub: "Have questions, feedback, or need technical support?", btnContact: "Contact Us",
+    connectTitle: "Support & Connect", connectSub: "Have questions, feedback, or need technical support?", btnContact: "Send inquiry", contactEmailLabel: "Email address", contactEmailPlaceholder: "Email address for our reply", contactMessageLabel: "Message", contactMessagePlaceholder: "Tell us how we can help", contactNotice: "Your email address and message are used only to respond to your inquiry.",
     footConnect: "Connect", footPrivacy: "Privacy Policy", footTerms: "Terms of Service"
   },
 
@@ -163,7 +163,7 @@ const translations = {
     ffF3Title: "日次タスク完了アナリティクス", ffF3Desc: "達成したタスク数と進捗率を視覚的に確認し、毎日の目標達成へのモチベーションを維持できます。",
     ffF4Title: "インストール不要のクロスプラットフォーム", ffF4Desc: "Windows、macOS、タブレット、スマホなど、ブラウザがあればどのデバイスからでも即座にアクセスできます。",
     ffSpecTitle: "サービス詳細", ffCostSpec: "利用料金", ffCostVal: "無料 (Free Web Service)", ffIntegrationSpec: "製品連携", ffIntegrationVal: "workerFlowウィジェットとの連動に対応",
-    connectTitle: "サポート＆コネクト", connectSub: "ご質問、フィード백、技術的なサポートが必要ですか？", btnContact: "お問い合わせ", footConnect: "コネクト", footPrivacy: "プライバシーポリシー", footTerms: "利用規約"
+    connectTitle: "サポート＆コネクト", connectSub: "ご質問、フィード백、技術的なサポートが必要ですか？", btnContact: "送信する", contactEmailLabel: "メールアドレス", contactEmailPlaceholder: "返信先のメールアドレス", contactMessageLabel: "お問い合わせ内容", contactMessagePlaceholder: "お問い合わせ内容を入力してください", contactNotice: "メールアドレスとお問い合わせ内容は、回答のためにのみ使用します。", footConnect: "コネクト", footPrivacy: "プライバシーポリシー", footTerms: "利用規約"
   },
 
   // 4. 중국어 (Simplified Chinese)
@@ -212,7 +212,7 @@ const translations = {
     ffF3Title: "每日任务完成分析", ffF3Desc: "可视化展示今日完成的任务数量与进度，为您提供源源不断的成就感与动力。",
     ffF4Title: "免安装跨平台访问", ffF4Desc: "无论 Windows、macOS、平板还是手机，只需浏览器即可随时随地接入使用。",
     ffSpecTitle: "服务详情", ffCostSpec: "使用费用", ffCostVal: "免费 (Free Web Service)", ffIntegrationSpec: "产品联动", ffIntegrationVal: "支持与 workerFlow 桌面部件联动",
-    connectTitle: "客户支持", connectSub: "有疑问、建议或需要技术支持？", btnContact: "联系我们", footConnect: "联系", footPrivacy: "隐私政策", footTerms: "服务条款"
+    connectTitle: "客户支持", connectSub: "有疑问、建议或需要技术支持？", btnContact: "发送咨询", contactEmailLabel: "电子邮箱", contactEmailPlaceholder: "用于接收回复的电子邮箱", contactMessageLabel: "咨询内容", contactMessagePlaceholder: "请输入您的咨询内容", contactNotice: "您的电子邮箱和咨询内容仅用于回复您的咨询。", footConnect: "联系", footPrivacy: "隐私政策", footTerms: "服务条款"
   },
 
   // 5. 스페인어 (Spanish)
@@ -259,7 +259,7 @@ const translations = {
     ffF3Title: "Análisis de tareas diarias", ffF3Desc: "Rastrea visualmente tus tareas completadas y el progreso para mantener el impulso diario.",
     ffF4Title: "Multiplataforma Web sin instalación", ffF4Desc: "Accesible en cualquier dispositivo (Windows, macOS, tablet o móvil) directamente desde tu navegador.",
     ffSpecTitle: "Detalles del servicio", ffCostSpec: "Precio", ffCostVal: "Servicio Web Gratuito", ffIntegrationSpec: "Integración", ffIntegrationVal: "Soportado con el widget workerFlow",
-    connectTitle: "Soporte y contacto", connectSub: "¿Tienes preguntas, comentarios o necesitas soporte técnico?", btnContact: "Contáctanos", footConnect: "Contacto", footPrivacy: "Política de privacidad", footTerms: "Términos de servicio"
+    connectTitle: "Soporte y contacto", connectSub: "¿Tienes preguntas, comentarios o necesitas soporte técnico?", btnContact: "Enviar consulta", contactEmailLabel: "Correo electrónico", contactEmailPlaceholder: "Correo para recibir nuestra respuesta", contactMessageLabel: "Mensaje", contactMessagePlaceholder: "Cuéntanos cómo podemos ayudarte", contactNotice: "Tu correo y mensaje se usan únicamente para responder a tu consulta.", footConnect: "Contacto", footPrivacy: "Política de privacidad", footTerms: "Términos de servicio"
   },
 
   // 6. 프랑스어 (French)
@@ -306,7 +306,7 @@ const translations = {
     ffF3Title: "Analyse des tâches quotidiennes", ffF3Desc: "Suivez visuellement vos tâches accomplies et votre progression pour maintenir un élan quotidien régulier.",
     ffF4Title: "Multiplateforme Web sans installation", ffF4Desc: "Accessible sur n'importe quel appareil (Windows, macOS, tablette ou mobile) directement via votre navigateur.",
     ffSpecTitle: "Détails du service", ffCostSpec: "Tarification", ffCostVal: "Service Web Gratuit", ffIntegrationSpec: "Intégration", ffIntegrationVal: "Prise en charge avec le widget workerFlow",
-    connectTitle: "Support & Contact", connectSub: "Vous avez des questions ou besoin d'aide technique ?", btnContact: "Nous contacter", footConnect: "Contact", footPrivacy: "Politique de confidentialité", footTerms: "Conditions d'utilisation"
+    connectTitle: "Support & Contact", connectSub: "Vous avez des questions ou besoin d'aide technique ?", btnContact: "Envoyer la demande", contactEmailLabel: "Adresse e-mail", contactEmailPlaceholder: "Adresse e-mail pour notre réponse", contactMessageLabel: "Message", contactMessagePlaceholder: "Comment pouvons-nous vous aider ?", contactNotice: "Votre adresse e-mail et votre message sont utilisés uniquement pour répondre à votre demande.", footConnect: "Contact", footPrivacy: "Politique de confidentialité", footTerms: "Conditions d'utilisation"
   },
 
   // 7. 독일어 (German)
@@ -353,7 +353,7 @@ const translations = {
     ffF3Title: "Tägliche Aufgabenanalyse", ffF3Desc: "Verfolgen Sie erledigte Aufgaben und den Fortschritt visuell, um eine tägliche Dynamik aufzubauen.",
     ffF4Title: "Installationsfreie Web-Plattform", ffF4Desc: "Auf jedem Gerät (Windows, macOS, Tablet oder Smartphone) direkt über Ihren Browser zugänglich.",
     ffSpecTitle: "Servicedetails", ffCostSpec: "Preise", ffCostVal: "Kostenloser Web-Service", ffIntegrationSpec: "Integration", ffIntegrationVal: "Unterstützt mit workerFlow-Widget",
-    connectTitle: "Support & Kontakt", connectSub: "Haben Sie Fragen, Feedback oder benötigen Sie technischen Support?", btnContact: "Kontaktieren Sie uns", footConnect: "Kontakt", footPrivacy: "Datenschutzrichtlinie", footTerms: "Nutzungsbedingungen"
+    connectTitle: "Support & Kontakt", connectSub: "Haben Sie Fragen, Feedback oder benötigen Sie technischen Support?", btnContact: "Anfrage senden", contactEmailLabel: "E-Mail-Adresse", contactEmailPlaceholder: "E-Mail-Adresse für unsere Antwort", contactMessageLabel: "Nachricht", contactMessagePlaceholder: "Wie können wir helfen?", contactNotice: "Ihre E-Mail-Adresse und Nachricht werden nur zur Beantwortung Ihrer Anfrage verwendet.", footConnect: "Kontakt", footPrivacy: "Datenschutzrichtlinie", footTerms: "Nutzungsbedingungen"
   }
 };
 
@@ -373,6 +373,14 @@ function setLanguage(lang) {
       } else {
         el.textContent = translations[lang][key];
       }
+    }
+  });
+
+  // Form control placeholders are attributes rather than visible text nodes.
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (translations[lang] && translations[lang][key] !== undefined) {
+      el.placeholder = translations[lang][key];
     }
   });
 

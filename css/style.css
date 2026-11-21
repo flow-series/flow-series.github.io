@@ -327,6 +327,45 @@ header {
   box-shadow: var(--shadow-sm);
 }
 
+.contact-form {
+  max-width: 620px;
+  margin: 0 auto;
+  display: grid;
+  gap: 0.7rem;
+  text-align: left;
+}
+
+.contact-form label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-top: 0.45rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  border: 1px solid var(--surface-border);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  background: var(--bg-body);
+  color: var(--text-main);
+  font: inherit;
+  line-height: 1.5;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.contact-form textarea { resize: vertical; min-height: 9rem; }
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(2, 85, 202, 0.12);
+}
+.contact-form .btn { justify-content: center; border: 0; cursor: pointer; margin-top: 0.8rem; }
+.contact-notice { color: var(--text-muted); font-size: 0.8rem; text-align: center; }
+.contact-honeypot { position: absolute; left: -10000px; }
+
 /* ── FOOTER ── */
 footer { background: #0B1120; color: #94A3B8; padding: 3rem 1.5rem; }
 .footer-container {

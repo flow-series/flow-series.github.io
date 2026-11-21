@@ -167,7 +167,22 @@
     <div class="contact-card">
       <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;" data-i18n="connectTitle">고객센터 & 커넥트</h2>
       <p style="color: var(--text-muted); margin-bottom: 1.5rem;" data-i18n="connectSub">제품 문의, 피드백, 또는 기술 지원이 필요하신가요?</p>
-      <a href="mailto:support@flow-series.github.io" class="btn btn-primary" data-i18n="btnContact">문의하기 (Connect)</a>
+      <form class="contact-form" action="https://formsubmit.co/sksrla8860@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="[Flow Series] 새 문의가 도착했습니다">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="true">
+        <input type="hidden" name="_url" value="https://flow-series.github.io/">
+        <input type="text" name="_honey" class="contact-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <label for="contact-email" data-i18n="contactEmailLabel">이메일 주소</label>
+        <input id="contact-email" name="email" type="email" autocomplete="email" required data-i18n-placeholder="contactEmailPlaceholder" placeholder="답변 받을 이메일 주소">
+
+        <label for="contact-message" data-i18n="contactMessageLabel">문의 내용</label>
+        <textarea id="contact-message" name="message" rows="6" required data-i18n-placeholder="contactMessagePlaceholder" placeholder="문의 내용을 입력해 주세요"></textarea>
+
+        <button type="submit" class="btn btn-primary" data-i18n="btnContact">문의 보내기</button>
+        <p class="contact-notice" data-i18n="contactNotice">보내주신 이메일 주소와 문의 내용은 답변을 위해서만 사용됩니다.</p>
+      </form>
     </div>
   </section>
 
