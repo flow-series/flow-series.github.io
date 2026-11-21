@@ -72,63 +72,33 @@
       <!-- macOS Panel -->
       <div class="download-panel active" id="tab-mac">
         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-          <a href="#" class="btn btn-primary" style="justify-content: space-between; padding: 1rem 1.5rem;">
+          <div class="btn btn-disabled" style="justify-content: space-between; padding: 1rem 1.5rem;">
             <span style="display: flex; align-items: center; gap: 0.75rem;">
               <span style="font-size: 1.4rem;">🍎</span>
               <span style="text-align: left;">
-                <span style="font-size: 0.75rem; opacity: 0.85; display: block;" data-i18n="sfBuyMac">macOS 라이선스 구매</span>
-                <span style="font-weight: 700;">Download .dmg</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">macOS</span>
+                <span style="font-weight: 700;">macOS (.dmg)</span>
               </span>
             </span>
-            <span>↓</span>
-          </a>
-
-          <a href="#" class="btn btn-secondary" style="justify-content: space-between; padding: 1rem 1.5rem;">
-            <span style="display: flex; align-items: center; gap: 0.75rem;">
-              <span style="font-size: 1.4rem;">🆓</span>
-              <span style="text-align: left;">
-                <span style="font-size: 0.75rem; color: var(--text-muted); display: block;" data-i18n="sfTrialMac">무료 체험판</span>
-                <span style="font-weight: 700;">Free Trial</span>
-              </span>
-            </span>
-            <span>→</span>
-          </a>
+            <span class="badge-coming-soon" data-i18n="badgeComingSoon">준비 중</span>
+          </div>
         </div>
-        <p style="margin-top: 0.8rem; font-size: 0.75rem; color: var(--text-muted);" data-i18n="sfPaddleNote">Paddle을 통한 안전한 결제. 1회 구매로 평생 라이선스 제공.</p>
       </div>
 
       <!-- Windows Panel -->
       <div class="download-panel" id="tab-win">
         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-          <a href="#" class="btn btn-primary" style="justify-content: space-between; padding: 1rem 1.5rem;">
+          <div class="btn btn-disabled" style="justify-content: space-between; padding: 1rem 1.5rem;">
             <span style="display: flex; align-items: center; gap: 0.75rem;">
               <span style="font-size: 1.4rem;">🪟</span>
               <span style="text-align: left;">
-                <span style="font-size: 0.75rem; opacity: 0.85; display: block;" data-i18n="sfWinLabel">Windows 설치 파일</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Windows</span>
                 <span style="font-weight: 700;">Windows (.exe)</span>
               </span>
             </span>
-            <span>↓</span>
-          </a>
-
-          <a href="https://apps.microsoft.com/detail/9pfjph03g2nm" target="_blank" class="btn btn-secondary" style="justify-content: space-between; padding: 1rem 1.5rem;">
-            <span style="display: flex; align-items: center; gap: 0.75rem;">
-              <span style="font-size: 1.4rem;">🏪</span>
-              <span style="text-align: left;">
-                <span style="font-size: 0.75rem; color: var(--text-muted); display: block;" data-i18n="wfDlStore">스토어에서 받기</span>
-                <span style="font-weight: 700;">Microsoft Store</span>
-              </span>
-            </span>
-            <span>→</span>
-          </a>
+            <span class="badge-coming-soon" data-i18n="badgeComingSoon">준비 중</span>
+          </div>
         </div>
-      </div>
-
-      <!-- 이전 버전 아카이브 이동 링크 -->
-      <div style="margin-top: 1.5rem; pt-3; border-top: 1px dashed var(--surface-border);">
-        <a href="../#downloads" style="font-size: 0.85rem; color: var(--primary-blue); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
-          <span data-i18n="wfOldVersionLink">이전 버전(아카이브) 다운로드</span> ➔
-        </a>
       </div>
     </div>
   </section>
