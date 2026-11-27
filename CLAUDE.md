@@ -1,33 +1,37 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+**[💡 중요 지침]**
+1.  **언어**: 앞으로의 모든 응답과 소통은 **한국어**로 진행해야 합니다.
+2.  **문서화**: 코드를 수정하거나 변경하는 작업 시, 관련 설계 문서(예: `analysis_summary.md`, `README.md`)를 **필요에 따라 업데이트**하여 이 프로젝트의 지침을 최신 상태로 유지해야 합니다.
 
-## ⚙️ High-Level Architecture
-This project, `flow-series.github.io`, is a collection of distinct web applications, each encapsulated as a "flow." It serves as a comprehensive software suite rather than a monolithic application.
+이 파일은 이 저장소의 코드를 작업할 때 Claude Code (claude.ai/code) 에 가이드라인을 제공합니다.
 
-**Core Structure:**
-1.  **Foundation**: The main site (`index.html`, `privacy.html`, `service.html`) provides universal entry points and legal boilerplate.
-2.  **Feature Modules**: Functionality is split into three distinct modules:
-    *   **`focusflow/`**: Dedicated to productivity and task management features.
-    *   **`slideflow/`**: Dedicated to minimalist presentation/viewing features.
-    *   **`workerflow/`**: Dedicated to complex scheduling and workflow engine features.
-3.  **Resources**: Shared resources (`css/`, `js/`) maintain consistency across all flows. Executable assets are provided in the `downloads/` directory.
+## ⚙️ 고급 아키텍처 (High-Level Architecture)
+이 프로젝트인 `flow-series.github.io`는 '플로우(flow)'로 캡슐화된 별개의 웹 애플리케이션 모음입니다. 이는 단일 모놀리식(monolithic) 애플리케이션이 아닌, 포괄적인 소프트웨어 스위트(software suite) 역할을 합니다.
 
-**Primary Development Concerns:**
-*   **Isolation**: When working on a feature (e.g., `focusflow`), changes should be primarily contained within its respective directory and files.
-*   **Cross-Cutting Concerns**: Global state, UI behavior, and internationalization (`i18n`) are handled in `js/components.js` and `js/i18n.js` and must be considered when modifying feature modules.
+**핵심 구조:**
+1.  **기반 (Foundation)**: 메인 사이트 (`index.html`, `privacy.html`, `service.html`)는 범용적인 진입점과 법적 고지 사항(boilerplate)을 제공합니다.
+2.  **기능 모듈 (Feature Modules)**: 기능은 세 가지 독립적인 모듈로 분할되어 있습니다.
+    *   **`focusflow/`**: 생산성 및 태스크 관리 기능에 전념합니다.
+    *   **`slideflow/`**: 미니멀리스트 프레젠테이션/뷰잉 기능에 전념합니다.
+    *   **`workerflow/`**: 복잡한 스케줄링 및 워크플로우 엔진 기능에 전념합니다.
+3.  **자원 (Resources)**: 공유 자원 (`css/`, `js/`)은 모든 플로우에서 일관성을 유지합니다. 실행 가능한 에셋은 `downloads/` 디렉토리에 제공됩니다.
 
-## 🛠️ Common Workflow
-*   **Deployment/Execution**: The primary execution method is via the standard web server structure (assuming this is a GitHub Pages-like deployment). Specific build or lint commands are not available via the current tooling, but the structure implies standard web asset processing (HTML/CSS/JS).
-*   **Testing**: Currently, no dedicated testing framework or testing commands are present. If testing is required, specific tests must be added manually.
-*   **Development Guidance**: Use the `analysis_summary.md` for a detailed breakdown of components and their roles.
+**주요 개발 고려 사항:**
+*   **격리 (Isolation)**: 특정 기능을 작업할 때 (예: `focusflow`), 변경 사항은 해당 디렉토리와 파일 내에 주로 포함되어야 합니다.
+*   **교차 관심사 (Cross-Cutting Concerns)**: 전역 상태, UI 동작, 국제화 (`i18n`)는 `js/components.js` 및 `js/i18n.js`에서 처리되며, 기능 모듈을 수정할 때 이를 고려해야 합니다.
 
-## 🧩 Key Modules and Roles
-*   **`js/components.js`**: The primary initialization script. Its main role is constructing the persistent global UI elements (Header and Footer) upon `DOMContentLoaded`, and managing language state synchronization.
-*   **`js/i18n.js`**: Handles localization logic, which relies on functions exposed in `components.js` (e.g., `setLanguage`).
+## 🛠️ 일반적인 워크플로우 (Common Workflow)
+*   **배포/실행**: 주요 실행 방법은 표준 웹 서버 구조를 이용하는 것입니다 (GitHub Pages와 같은 배포를 가정). 현재 도구로는 특정 빌드나 린트(lint) 명령을 제공하지 않지만, 구조는 표준 웹 에셋 처리(HTML/CSS/JS)를 암시합니다.
+*   **테스트**: 현재 전용 테스트 프레임워크나 테스트 명령은 없습니다. 테스트가 필요하다면, 특정 테스트를 수동으로 추가해야 합니다.
+*   **개발 지침**: 구성 요소 및 역할에 대한 자세한 내용은 `analysis_summary.md`를 참조하십시오.
+
+## 🧩 주요 모듈 및 역할
+*   **`js/components.js`**: 주요 초기화 스크립트입니다. `DOMContentLoaded` 발생 시 지속적인 전역 UI 요소(헤더 및 푸터)를 구성하고 언어 상태 동기화를 관리하는 것이 주된 역할입니다.
+*   **`js/i18n.js`**: 지역화(localization) 로직을 처리하며, `components.js`에서 노출하는 함수(예: `setLanguage`)에 의존합니다.
 
 ---
-**⚠️ Developer Notes:**
-*   The project structure prioritizes functional modularity.
-*   Do not attempt to run generalized frontend build tools unless specific tooling (like WebPack config) is provided in the repository.
-*   Refer to `analysis_summary.md` for a detailed map of files and functions.
+**⚠️ 개발자 참고 사항:**
+*   프로젝트 구조는 기능적 모듈화를 우선시합니다.
+*   저장소에 특정 도구(예: WebPack 설정)가 제공되지 않는 한 일반적인 프론트엔드 빌드 도구를 실행하려고 시도하지 마십시오.
+*   파일과 함수의 상세 맵을 보려면 `analysis_summary.md`를 참조하십시오.
